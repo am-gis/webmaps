@@ -15,4 +15,4 @@ The following steps will guide you through the process of adding a new web map (
   7.  Again, once completed, push origin (Ctrl+P again)
   8.  Close GitHub Desktop
 
-It may take a moment to for changes to be reflected, but once the above steps have been completed, view web map at: am-gis.github.io/web-maps/**webMapNameGoesHere**
+It may take a moment to for changes to be reflected, but once the above steps have been completed, view web map at: am-gis.github.io/webmaps/**webMapNameGoesHere**
