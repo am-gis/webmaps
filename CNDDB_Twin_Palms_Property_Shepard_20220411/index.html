@@ -1,0 +1,985 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet-search.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/CNDDBPolygons_1.js"></script>
+        <script src="data/StudyArea_2.js"></script>
+        <script src="data/Quads_3.js"></script>
+        <script src="data/CNDDBPoints_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[35.15348778805577,-121.36762750979001],[35.681588351358265,-120.33914443928404]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'feet',
+            secondaryLengthUnit: 'miles',
+            primaryAreaUnit: 'sqfeet',
+            secondaryAreaUnit: 'sqmiles'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleSatellite_0');
+        map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
+        var layer_GoogleSatellite_0 = L.tileLayer('http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatellite_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 18
+        });
+        layer_GoogleSatellite_0;
+        map.addLayer(layer_GoogleSatellite_0);
+        function pop_CNDDBPolygons_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">SciName</th>\
+                        <td>' + (feature.properties['SciName'] !== null ? autolinker.link(feature.properties['SciName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CommName</th>\
+                        <td>' + (feature.properties['CommName'] !== null ? autolinker.link(feature.properties['CommName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ObsDate</th>\
+                        <td>' + (feature.properties['ObsDate'] !== null ? autolinker.link(feature.properties['ObsDate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Notes</th>\
+                        <td>' + (feature.properties['Notes'] !== null ? autolinker.link(feature.properties['Notes'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Source</th>\
+                        <td>' + (feature.properties['Source'] !== null ? autolinker.link(feature.properties['Source'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CNDDBPolygons_1_0() {
+            return {
+                pane: 'pane_CNDDBPolygons_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(217,134,217,0.4)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CNDDBPolygons_1');
+        map.getPane('pane_CNDDBPolygons_1').style.zIndex = 401;
+        map.getPane('pane_CNDDBPolygons_1').style['mix-blend-mode'] = 'normal';
+        var layer_CNDDBPolygons_1 = new L.geoJson(json_CNDDBPolygons_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CNDDBPolygons_1',
+            layerName: 'layer_CNDDBPolygons_1',
+            pane: 'pane_CNDDBPolygons_1',
+            onEachFeature: pop_CNDDBPolygons_1,
+            style: style_CNDDBPolygons_1_0,
+        });
+        bounds_group.addLayer(layer_CNDDBPolygons_1);
+        map.addLayer(layer_CNDDBPolygons_1);
+        function pop_StudyArea_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['OBJECTID'] !== null ? autolinker.link(feature.properties['OBJECTID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_Length'] !== null ? autolinker.link(feature.properties['SHAPE_Length'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SHAPE_Area'] !== null ? autolinker.link(feature.properties['SHAPE_Area'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['TypeDetail'] !== null ? autolinker.link(feature.properties['TypeDetail'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['acres'] !== null ? autolinker.link(feature.properties['acres'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['GlobalID'] !== null ? autolinker.link(feature.properties['GlobalID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['APN'] !== null ? autolinker.link(feature.properties['APN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_StudyArea_2_0() {
+            return {
+                pane: 'pane_StudyArea_2',
+                opacity: 1,
+                color: 'rgba(255,0,4,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,100,105,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_StudyArea_2');
+        map.getPane('pane_StudyArea_2').style.zIndex = 402;
+        map.getPane('pane_StudyArea_2').style['mix-blend-mode'] = 'normal';
+        var layer_StudyArea_2 = new L.geoJson(json_StudyArea_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_StudyArea_2',
+            layerName: 'layer_StudyArea_2',
+            pane: 'pane_StudyArea_2',
+            onEachFeature: pop_StudyArea_2,
+            style: style_StudyArea_2_0,
+        });
+        bounds_group.addLayer(layer_StudyArea_2);
+        map.addLayer(layer_StudyArea_2);
+        function pop_Quads_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['QUADCODE'] !== null ? autolinker.link(feature.properties['QUADCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USGSCODE'] !== null ? autolinker.link(feature.properties['USGSCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CNPSCODE'] !== null ? autolinker.link(feature.properties['CNPSCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['QUADNAME'] !== null ? autolinker.link(feature.properties['QUADNAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['QUADSIZE'] !== null ? autolinker.link(feature.properties['QUADSIZE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Q24YEAR'] !== null ? autolinker.link(feature.properties['Q24YEAR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Q100NAME'] !== null ? autolinker.link(feature.properties['Q100NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BORDER'] !== null ? autolinker.link(feature.properties['BORDER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UTMZONE'] !== null ? autolinker.link(feature.properties['UTMZONE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['B_M'] !== null ? autolinker.link(feature.properties['B_M'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SENSITIVE'] !== null ? autolinker.link(feature.properties['SENSITIVE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Quads_3_0() {
+            return {
+                pane: 'pane_Quads_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 2.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(231,113,72,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Quads_3');
+        map.getPane('pane_Quads_3').style.zIndex = 403;
+        map.getPane('pane_Quads_3').style['mix-blend-mode'] = 'normal';
+        var layer_Quads_3 = new L.geoJson(json_Quads_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Quads_3',
+            layerName: 'layer_Quads_3',
+            pane: 'pane_Quads_3',
+            onEachFeature: pop_Quads_3,
+            style: style_Quads_3_0,
+        });
+        bounds_group.addLayer(layer_Quads_3);
+        map.addLayer(layer_Quads_3);
+        function pop_CNDDBPoints_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">CommName</th>\
+                        <td>' + (feature.properties['CommName'] !== null ? autolinker.link(feature.properties['CommName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Notes</th>\
+                        <td>' + (feature.properties['Notes'] !== null ? autolinker.link(feature.properties['Notes'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ObsDate</th>\
+                        <td>' + (feature.properties['ObsDate'] !== null ? autolinker.link(feature.properties['ObsDate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SciName</th>\
+                        <td>' + (feature.properties['SciName'] !== null ? autolinker.link(feature.properties['SciName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Source</th>\
+                        <td>' + (feature.properties['Source'] !== null ? autolinker.link(feature.properties['Source'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CNDDBPoints_4_0() {
+            return {
+                pane: 'pane_CNDDBPoints_4',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,255,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_CNDDBPoints_4');
+        map.getPane('pane_CNDDBPoints_4').style.zIndex = 404;
+        map.getPane('pane_CNDDBPoints_4').style['mix-blend-mode'] = 'normal';
+        var layer_CNDDBPoints_4 = new L.geoJson(json_CNDDBPoints_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CNDDBPoints_4',
+            layerName: 'layer_CNDDBPoints_4',
+            pane: 'pane_CNDDBPoints_4',
+            onEachFeature: pop_CNDDBPoints_4,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_CNDDBPoints_4_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_CNDDBPoints_4);
+        map.addLayer(layer_CNDDBPoints_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/CNDDBPoints_4.png" /> CNDDB Points': layer_CNDDBPoints_4,'<img src="legend/Quads_3.png" /> Quads': layer_Quads_3,'<img src="legend/StudyArea_2.png" /> Study Area': layer_StudyArea_2,'<img src="legend/CNDDBPolygons_1.png" /> CNDDB Polygons': layer_CNDDBPolygons_1,"Google Satellite": layer_GoogleSatellite_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        map.addControl(new L.Control.Search({
+            layer: layer_CNDDBPolygons_1,
+            initial: false,
+            hideMarkerOnCollapse: true,
+            propertyName: 'SciName'}));
+        document.getElementsByClassName('search-button')[0].className +=
+         ' fa fa-binoculars';
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"SciName": "str","CommName": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_SciName = document.createElement('div');
+            div_SciName.id = "div_SciName";
+            div_SciName.className= "filterselect";
+            document.getElementById("menu").appendChild(div_SciName);
+            sel_SciName = document.createElement('select');
+            sel_SciName.multiple = true;
+            sel_SciName.size = 10;
+            sel_SciName.id = "sel_SciName";
+            var SciName_options_str = "<option value='' unselected></option>";
+            sel_SciName.onchange = function(){filterFunc()};
+            SciName_options_str  += '<option value="Abronia maritima">Abronia maritima</option>';
+            SciName_options_str  += '<option value="Accipiter cooperii">Accipiter cooperii</option>';
+            SciName_options_str  += '<option value="Agelaius tricolor">Agelaius tricolor</option>';
+            SciName_options_str  += '<option value="Agrostis Hooveri">Agrostis Hooveri</option>';
+            SciName_options_str  += '<option value="Agrostis hooveri">Agrostis hooveri</option>';
+            SciName_options_str  += '<option value="Anniella pulchra">Anniella pulchra</option>';
+            SciName_options_str  += '<option value="Antrozous pallidus">Antrozous pallidus</option>';
+            SciName_options_str  += '<option value="Aquila chrysaetos">Aquila chrysaetos</option>';
+            SciName_options_str  += '<option value="Arctostaphylos crustacea subsp. subcordata">Arctostaphylos crustacea subsp. subcordata</option>';
+            SciName_options_str  += '<option value="Arctostaphylos cruzensis">Arctostaphylos cruzensis</option>';
+            SciName_options_str  += '<option value="Arctostaphylos densiflora">Arctostaphylos densiflora</option>';
+            SciName_options_str  += '<option value="Arctostaphylos luciana">Arctostaphylos luciana</option>';
+            SciName_options_str  += '<option value="Arctostaphylos morroensis">Arctostaphylos morroensis</option>';
+            SciName_options_str  += '<option value="Arctostaphylos obispoensis">Arctostaphylos obispoensis</option>';
+            SciName_options_str  += '<option value="Arctostaphylos osoensis">Arctostaphylos osoensis</option>';
+            SciName_options_str  += '<option value="Arctostaphylos pechoensis">Arctostaphylos pechoensis</option>';
+            SciName_options_str  += '<option value="Arctostaphylos pechoensis var. viridissima">Arctostaphylos pechoensis var. viridissima</option>';
+            SciName_options_str  += '<option value="Arctostaphylos pilosula">Arctostaphylos pilosula</option>';
+            SciName_options_str  += '<option value="Arctostaphylos rudis">Arctostaphylos rudis</option>';
+            SciName_options_str  += '<option value="Arctostaphylos tomentosa ssp. daciticola">Arctostaphylos tomentosa ssp. daciticola</option>';
+            SciName_options_str  += '<option value="Arctostaphylos tomentosa subsp. daciticola">Arctostaphylos tomentosa subsp. daciticola</option>';
+            SciName_options_str  += '<option value="Arctostaphylos viridissima">Arctostaphylos viridissima</option>';
+            SciName_options_str  += '<option value="Arenaria paludicola">Arenaria paludicola</option>';
+            SciName_options_str  += '<option value="Aspidotis carlotta-halliae">Aspidotis carlotta-halliae</option>';
+            SciName_options_str  += '<option value="Astragalus didymocarpus var. milesianus">Astragalus didymocarpus var. milesianus</option>';
+            SciName_options_str  += '<option value="Astragalus nuttallii var. nuttallii">Astragalus nuttallii var. nuttallii</option>';
+            SciName_options_str  += '<option value="Athene cunicularia">Athene cunicularia</option>';
+            SciName_options_str  += '<option value="Atractelmis wawona">Atractelmis wawona</option>';
+            SciName_options_str  += '<option value="Atriplex coulteri">Atriplex coulteri</option>';
+            SciName_options_str  += '<option value="Batrachoseps minor">Batrachoseps minor</option>';
+            SciName_options_str  += '<option value="Bombus caliginosus">Bombus caliginosus</option>';
+            SciName_options_str  += '<option value="Bombus crotchii">Bombus crotchii</option>';
+            SciName_options_str  += '<option value="Bombus occidentalis">Bombus occidentalis</option>';
+            SciName_options_str  += '<option value="Branchinecta lynchi">Branchinecta lynchi</option>';
+            SciName_options_str  += '<option value="Buteo regalis">Buteo regalis</option>';
+            SciName_options_str  += '<option value="Calandrinia breweri">Calandrinia breweri</option>';
+            SciName_options_str  += '<option value="Calochortus catalinae">Calochortus catalinae</option>';
+            SciName_options_str  += '<option value="Calochortus clavatus var. clavatus">Calochortus clavatus var. clavatus</option>';
+            SciName_options_str  += '<option value="Calochortus obispoensis">Calochortus obispoensis</option>';
+            SciName_options_str  += '<option value="Calochortus simulans">Calochortus simulans</option>';
+            SciName_options_str  += '<option value="Calystegia collina subsp. venusta">Calystegia collina subsp. venusta</option>';
+            SciName_options_str  += '<option value="Calystegia subacaulis ssp. episcopalis">Calystegia subacaulis ssp. episcopalis</option>';
+            SciName_options_str  += '<option value="Calystegia subacaulis subsp. episcopalis">Calystegia subacaulis subsp. episcopalis</option>';
+            SciName_options_str  += '<option value="Camissoniopsis hardhamiae">Camissoniopsis hardhamiae</option>';
+            SciName_options_str  += '<option value="Carex obispoensis">Carex obispoensis</option>';
+            SciName_options_str  += '<option value="Castilleja densiflora var. obispoensis">Castilleja densiflora var. obispoensis</option>';
+            SciName_options_str  += '<option value="Castilleja mollis">Castilleja mollis</option>';
+            SciName_options_str  += '<option value="Ceanothus cuneatus var. fascicularis">Ceanothus cuneatus var. fascicularis</option>';
+            SciName_options_str  += '<option value="Ceanothus cyaneus">Ceanothus cyaneus</option>';
+            SciName_options_str  += '<option value="Ceanothus impressus var. nipomensis">Ceanothus impressus var. nipomensis</option>';
+            SciName_options_str  += '<option value="Ceanothus maritimus">Ceanothus maritimus</option>';
+            SciName_options_str  += '<option value="Ceanothus rigidus">Ceanothus rigidus</option>';
+            SciName_options_str  += '<option value="Ceanothus thyrsiflorus var. obispoensis">Ceanothus thyrsiflorus var. obispoensis</option>';
+            SciName_options_str  += '<option value="Central Dune Scrub">Central Dune Scrub</option>';
+            SciName_options_str  += '<option value="Central Foredunes">Central Foredunes</option>';
+            SciName_options_str  += '<option value="Central Maritime Chaparral">Central Maritime Chaparral</option>';
+            SciName_options_str  += '<option value="Centromadia parryi ssp. congdonii">Centromadia parryi ssp. congdonii</option>';
+            SciName_options_str  += '<option value="Centromadia parryi subsp. congdonii">Centromadia parryi subsp. congdonii</option>';
+            SciName_options_str  += '<option value="Charadrius nivosus nivosus">Charadrius nivosus nivosus</option>';
+            SciName_options_str  += '<option value="Chenopodium littoreum">Chenopodium littoreum</option>';
+            SciName_options_str  += '<option value="Chlorogalum pomeridianum var. minus">Chlorogalum pomeridianum var. minus</option>';
+            SciName_options_str  += '<option value="Chloropyron maritimum ssp. palustre">Chloropyron maritimum ssp. palustre</option>';
+            SciName_options_str  += '<option value="Chloropyron maritimum subsp. maritimum">Chloropyron maritimum subsp. maritimum</option>';
+            SciName_options_str  += '<option value="Chloropyron maritimum subsp. palustre">Chloropyron maritimum subsp. palustre</option>';
+            SciName_options_str  += '<option value="Chorizanthe aphanantha">Chorizanthe aphanantha</option>';
+            SciName_options_str  += '<option value="Chorizanthe breweri">Chorizanthe breweri</option>';
+            SciName_options_str  += '<option value="Chorizanthe leptotheca">Chorizanthe leptotheca</option>';
+            SciName_options_str  += '<option value="Chorizanthe palmeri">Chorizanthe palmeri</option>';
+            SciName_options_str  += '<option value="Chorizanthe rectispina">Chorizanthe rectispina</option>';
+            SciName_options_str  += '<option value="Cicindela hirticollis gravida">Cicindela hirticollis gravida</option>';
+            SciName_options_str  += '<option value="Cicuta maculata var. bolanderi">Cicuta maculata var. bolanderi</option>';
+            SciName_options_str  += '<option value="Circus hudsonius">Circus hudsonius</option>';
+            SciName_options_str  += '<option value="Cirsium fontinale var. obispoense">Cirsium fontinale var. obispoense</option>';
+            SciName_options_str  += '<option value="Cirsium occidentale var. compactum">Cirsium occidentale var. compactum</option>';
+            SciName_options_str  += '<option value="Cirsium occidentale var. lucianum">Cirsium occidentale var. lucianum</option>';
+            SciName_options_str  += '<option value="Cirsium rhothophilum">Cirsium rhothophilum</option>';
+            SciName_options_str  += '<option value="Cladonia firma">Cladonia firma</option>';
+            SciName_options_str  += '<option value="Clarkia speciosa ssp. immaculata">Clarkia speciosa ssp. immaculata</option>';
+            SciName_options_str  += '<option value="Clarkia speciosa subsp. immaculata">Clarkia speciosa subsp. immaculata</option>';
+            SciName_options_str  += '<option value="Clinopodium mimuloides">Clinopodium mimuloides</option>';
+            SciName_options_str  += '<option value="Coastal Brackish Marsh">Coastal Brackish Marsh</option>';
+            SciName_options_str  += '<option value="Coastal and Valley Freshwater Marsh">Coastal and Valley Freshwater Marsh</option>';
+            SciName_options_str  += '<option value="Coccyzus americanus occidentalis">Coccyzus americanus occidentalis</option>';
+            SciName_options_str  += '<option value="Coelus globosus">Coelus globosus</option>';
+            SciName_options_str  += '<option value="Convolvulus simulans">Convolvulus simulans</option>';
+            SciName_options_str  += '<option value="Corynorhinus townsendii">Corynorhinus townsendii</option>';
+            SciName_options_str  += '<option value="Danaus plexippus pop. 1">Danaus plexippus pop. 1</option>';
+            SciName_options_str  += '<option value="Deinandra paniculata">Deinandra paniculata</option>';
+            SciName_options_str  += '<option value="Delphinium parryi ssp. blochmaniae">Delphinium parryi ssp. blochmaniae</option>';
+            SciName_options_str  += '<option value="Delphinium parryi ssp. eastwoodiae">Delphinium parryi ssp. eastwoodiae</option>';
+            SciName_options_str  += '<option value="Delphinium parryi subsp. blochmaniae">Delphinium parryi subsp. blochmaniae</option>';
+            SciName_options_str  += '<option value="Delphinium parryi subsp. eastwoodiae">Delphinium parryi subsp. eastwoodiae</option>';
+            SciName_options_str  += '<option value="Delphinium uliginosum">Delphinium uliginosum</option>';
+            SciName_options_str  += '<option value="Delphinium umbraculorum">Delphinium umbraculorum</option>';
+            SciName_options_str  += '<option value="Dipodomys heermanni morroensis">Dipodomys heermanni morroensis</option>';
+            SciName_options_str  += '<option value="Dithyrea maritima">Dithyrea maritima</option>';
+            SciName_options_str  += '<option value="Dudleya abramsii ssp. bettinae">Dudleya abramsii ssp. bettinae</option>';
+            SciName_options_str  += '<option value="Dudleya abramsii ssp. murina">Dudleya abramsii ssp. murina</option>';
+            SciName_options_str  += '<option value="Dudleya abramsii subsp. bettinae">Dudleya abramsii subsp. bettinae</option>';
+            SciName_options_str  += '<option value="Dudleya abramsii subsp. murina">Dudleya abramsii subsp. murina</option>';
+            SciName_options_str  += '<option value="Dudleya blochmaniae ssp. blochmaniae">Dudleya blochmaniae ssp. blochmaniae</option>';
+            SciName_options_str  += '<option value="Dudleya blochmaniae subsp. blochmaniae">Dudleya blochmaniae subsp. blochmaniae</option>';
+            SciName_options_str  += '<option value="Elanus leucurus">Elanus leucurus</option>';
+            SciName_options_str  += '<option value="Emys marmorata">Emys marmorata</option>';
+            SciName_options_str  += '<option value="Eremophila alpestris actia">Eremophila alpestris actia</option>';
+            SciName_options_str  += '<option value="Eriastrum luteum">Eriastrum luteum</option>';
+            SciName_options_str  += '<option value="Erigeron blochmaniae">Erigeron blochmaniae</option>';
+            SciName_options_str  += '<option value="Erigeron sanctarum">Erigeron sanctarum</option>';
+            SciName_options_str  += '<option value="Eriodictyon altissimum">Eriodictyon altissimum</option>';
+            SciName_options_str  += '<option value="Eriogonum elegans">Eriogonum elegans</option>';
+            SciName_options_str  += '<option value="Eriogonum giganteum var. giganteum">Eriogonum giganteum var. giganteum</option>';
+            SciName_options_str  += '<option value="Eryngium aristulatum var. hooveri">Eryngium aristulatum var. hooveri</option>';
+            SciName_options_str  += '<option value="Erysimum insulare subsp. suffrutescens">Erysimum insulare subsp. suffrutescens</option>';
+            SciName_options_str  += '<option value="Erysimum suffrutescens">Erysimum suffrutescens</option>';
+            SciName_options_str  += '<option value="Eschscholzia hypecoides">Eschscholzia hypecoides</option>';
+            SciName_options_str  += '<option value="Eucyclogobius newberryi">Eucyclogobius newberryi</option>';
+            SciName_options_str  += '<option value="Eumetopias jubatus">Eumetopias jubatus</option>';
+            SciName_options_str  += '<option value="Eumops perotis californicus">Eumops perotis californicus</option>';
+            SciName_options_str  += '<option value="Extriplex joaquinana">Extriplex joaquinana</option>';
+            SciName_options_str  += '<option value="Fritillaria agrestis">Fritillaria agrestis</option>';
+            SciName_options_str  += '<option value="Fritillaria ojaiensis">Fritillaria ojaiensis</option>';
+            SciName_options_str  += '<option value="Galium cliftonsmithii">Galium cliftonsmithii</option>';
+            SciName_options_str  += '<option value="Gilia capitata subsp. chamissonis">Gilia capitata subsp. chamissonis</option>';
+            SciName_options_str  += '<option value="Helminthoglypta walkeriana">Helminthoglypta walkeriana</option>';
+            SciName_options_str  += '<option value="Hesperocyparis forbesii">Hesperocyparis forbesii</option>';
+            SciName_options_str  += '<option value="Hesperocyparis macrocarpa">Hesperocyparis macrocarpa</option>';
+            SciName_options_str  += '<option value="Hesperocyparis stephensonii">Hesperocyparis stephensonii</option>';
+            SciName_options_str  += '<option value="Horkelia cuneata var. puberula">Horkelia cuneata var. puberula</option>';
+            SciName_options_str  += '<option value="Horkelia cuneata var. sericea">Horkelia cuneata var. sericea</option>';
+            SciName_options_str  += '<option value="Icaricia icarioides moroensis">Icaricia icarioides moroensis</option>';
+            SciName_options_str  += '<option value="Juglans californica">Juglans californica</option>';
+            SciName_options_str  += '<option value="Juglans californica var.">Juglans californica var.</option>';
+            SciName_options_str  += '<option value="Juglans californica var. californica">Juglans californica var. californica</option>';
+            SciName_options_str  += '<option value="Juglans hindsii">Juglans hindsii</option>';
+            SciName_options_str  += '<option value="Juncus acutus subsp. leopoldii">Juncus acutus subsp. leopoldii</option>';
+            SciName_options_str  += '<option value="Lanius ludovicianus">Lanius ludovicianus</option>';
+            SciName_options_str  += '<option value="Lasthenia californica ssp. macrantha">Lasthenia californica ssp. macrantha</option>';
+            SciName_options_str  += '<option value="Lasthenia californica subsp. macrantha">Lasthenia californica subsp. macrantha</option>';
+            SciName_options_str  += '<option value="Lasthenia glabrata ssp. coulteri">Lasthenia glabrata ssp. coulteri</option>';
+            SciName_options_str  += '<option value="Lasthenia glabrata subsp. coulteri">Lasthenia glabrata subsp. coulteri</option>';
+            SciName_options_str  += '<option value="Lasthenia leptalea">Lasthenia leptalea</option>';
+            SciName_options_str  += '<option value="Laterallus jamaicensis coturniculus">Laterallus jamaicensis coturniculus</option>';
+            SciName_options_str  += '<option value="Layia jonesii">Layia jonesii</option>';
+            SciName_options_str  += '<option value="Leptosiphon grandiflorus">Leptosiphon grandiflorus</option>';
+            SciName_options_str  += '<option value="Linanthus californicus subsp. tomentosus">Linanthus californicus subsp. tomentosus</option>';
+            SciName_options_str  += '<option value="Linderiella occidentalis">Linderiella occidentalis</option>';
+            SciName_options_str  += '<option value="Lomatium parvifolium">Lomatium parvifolium</option>';
+            SciName_options_str  += '<option value="Lupinus ludovicianus">Lupinus ludovicianus</option>';
+            SciName_options_str  += '<option value="Lyonothamnus floribundus subsp. aspleniifolius">Lyonothamnus floribundus subsp. aspleniifolius</option>';
+            SciName_options_str  += '<option value="Malacothamnus jonesii">Malacothamnus jonesii</option>';
+            SciName_options_str  += '<option value="Malacothamnus palmeri var. involucratus">Malacothamnus palmeri var. involucratus</option>';
+            SciName_options_str  += '<option value="Malacothamnus palmeri var. palmeri">Malacothamnus palmeri var. palmeri</option>';
+            SciName_options_str  += '<option value="Malacothrix incana">Malacothrix incana</option>';
+            SciName_options_str  += '<option value="Malacothrix phaeocarpa">Malacothrix phaeocarpa</option>';
+            SciName_options_str  += '<option value="Monardella palmeri">Monardella palmeri</option>';
+            SciName_options_str  += '<option value="Monardella sinuata ssp. sinuata">Monardella sinuata ssp. sinuata</option>';
+            SciName_options_str  += '<option value="Monardella sinuata subsp. sinuata">Monardella sinuata subsp. sinuata</option>';
+            SciName_options_str  += '<option value="Monardella undulata subsp. crispa">Monardella undulata subsp. crispa</option>';
+            SciName_options_str  += '<option value="Monardella undulata subsp. undulata">Monardella undulata subsp. undulata</option>';
+            SciName_options_str  += '<option value="Monolopia gracilens">Monolopia gracilens</option>';
+            SciName_options_str  += '<option value="Mucronea californica">Mucronea californica</option>';
+            SciName_options_str  += '<option value="Muhlenbergia utilis">Muhlenbergia utilis</option>';
+            SciName_options_str  += '<option value="Nemacaulis denudata var. denudata">Nemacaulis denudata var. denudata</option>';
+            SciName_options_str  += '<option value="Nemacladus secundiflorus var. secundiflorus">Nemacladus secundiflorus var. secundiflorus</option>';
+            SciName_options_str  += '<option value="Neotoma lepida intermedia">Neotoma lepida intermedia</option>';
+            SciName_options_str  += '<option value="Northern Coastal Salt Marsh">Northern Coastal Salt Marsh</option>';
+            SciName_options_str  += '<option value="Northern Interior Cypress Forest">Northern Interior Cypress Forest</option>';
+            SciName_options_str  += '<option value="Nyctinomops macrotis">Nyctinomops macrotis</option>';
+            SciName_options_str  += '<option value="Oncorhynchus mykiss irideus pop. 10">Oncorhynchus mykiss irideus pop. 10</option>';
+            SciName_options_str  += '<option value="Oncorhynchus mykiss irideus pop. 9">Oncorhynchus mykiss irideus pop. 9</option>';
+            SciName_options_str  += '<option value="Perideridia pringlei">Perideridia pringlei</option>';
+            SciName_options_str  += '<option value="Phrynosoma blainvillii">Phrynosoma blainvillii</option>';
+            SciName_options_str  += '<option value="Pinus radiata">Pinus radiata</option>';
+            SciName_options_str  += '<option value="Piperia cooperi">Piperia cooperi</option>';
+            SciName_options_str  += '<option value="Piperia michaelii">Piperia michaelii</option>';
+            SciName_options_str  += '<option value="Plagiobothrys uncinatus">Plagiobothrys uncinatus</option>';
+            SciName_options_str  += '<option value="Poa diaboli">Poa diaboli</option>';
+            SciName_options_str  += '<option value="Polyphylla nubila">Polyphylla nubila</option>';
+            SciName_options_str  += '<option value="Progne subis">Progne subis</option>';
+            SciName_options_str  += '<option value="Prunus fasciculata var. punctata">Prunus fasciculata var. punctata</option>';
+            SciName_options_str  += '<option value="Pyrgulopsis taylori">Pyrgulopsis taylori</option>';
+            SciName_options_str  += '<option value="Quercus palmeri">Quercus palmeri</option>';
+            SciName_options_str  += '<option value="Quercus parvula var. parvula">Quercus parvula var. parvula</option>';
+            SciName_options_str  += '<option value="Rallus obsoletus obsoletus">Rallus obsoletus obsoletus</option>';
+            SciName_options_str  += '<option value="Rana boylii">Rana boylii</option>';
+            SciName_options_str  += '<option value="Rana draytonii">Rana draytonii</option>';
+            SciName_options_str  += '<option value="Ribes sericeum">Ribes sericeum</option>';
+            SciName_options_str  += '<option value="Sanicula hoffmannii">Sanicula hoffmannii</option>';
+            SciName_options_str  += '<option value="Sanicula maritima">Sanicula maritima</option>';
+            SciName_options_str  += '<option value="Scrophularia atrata">Scrophularia atrata</option>';
+            SciName_options_str  += '<option value="Senecio Blochmaniae">Senecio Blochmaniae</option>';
+            SciName_options_str  += '<option value="Senecio aphanactis">Senecio aphanactis</option>';
+            SciName_options_str  += '<option value="Senecio blochmaniae">Senecio blochmaniae</option>';
+            SciName_options_str  += '<option value="Serpentine Bunchgrass">Serpentine Bunchgrass</option>';
+            SciName_options_str  += '<option value="Sidalcea hickmanii ssp. anomala">Sidalcea hickmanii ssp. anomala</option>';
+            SciName_options_str  += '<option value="Sidalcea hickmanii subsp. anomala">Sidalcea hickmanii subsp. anomala</option>';
+            SciName_options_str  += '<option value="Spea hammondii">Spea hammondii</option>';
+            SciName_options_str  += '<option value="Streptanthus albidus ssp. peramoenus">Streptanthus albidus ssp. peramoenus</option>';
+            SciName_options_str  += '<option value="Streptanthus albidus subsp. peramoenus">Streptanthus albidus subsp. peramoenus</option>';
+            SciName_options_str  += '<option value="Strix occidentalis occidentalis">Strix occidentalis occidentalis</option>';
+            SciName_options_str  += '<option value="Suaeda californica">Suaeda californica</option>';
+            SciName_options_str  += '<option value="Suaeda californica var. californica">Suaeda californica var. californica</option>';
+            SciName_options_str  += '<option value="Suaeda californica var. pubescens">Suaeda californica var. pubescens</option>';
+            SciName_options_str  += '<option value="Suaeda taxifolia">Suaeda taxifolia</option>';
+            SciName_options_str  += '<option value="Sulcaria isidiifera">Sulcaria isidiifera</option>';
+            SciName_options_str  += '<option value="Sulcaria spiralifera">Sulcaria spiralifera</option>';
+            SciName_options_str  += '<option value="Taricha torosa">Taricha torosa</option>';
+            SciName_options_str  += '<option value="Taxidea taxus">Taxidea taxus</option>';
+            SciName_options_str  += '<option value="Thermopsis macrophylla">Thermopsis macrophylla</option>';
+            SciName_options_str  += '<option value="Toxicoscordion fontanum">Toxicoscordion fontanum</option>';
+            SciName_options_str  += '<option value="Trifolium hydrophilum">Trifolium hydrophilum</option>';
+            SciName_options_str  += '<option value="Tryonia imitator">Tryonia imitator</option>';
+            SciName_options_str  += '<option value="Valley Needlegrass Grassland">Valley Needlegrass Grassland</option>';
+            sel_SciName.innerHTML = SciName_options_str;
+            div_SciName.appendChild(sel_SciName);
+            var lab_SciName = document.createElement('div');
+            lab_SciName.innerHTML = 'SciName';
+            lab_SciName.className = 'filterlabel';
+            div_SciName.appendChild(lab_SciName);
+            var reset_SciName = document.createElement('div');
+            reset_SciName.innerHTML = 'clear filter';
+            reset_SciName.className = 'filterlabel';
+            reset_SciName.onclick = function() {
+                var options = document.getElementById("sel_SciName").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_SciName.appendChild(reset_SciName);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_CommName = document.createElement('div');
+            div_CommName.id = "div_CommName";
+            div_CommName.className= "filterselect";
+            document.getElementById("menu").appendChild(div_CommName);
+            sel_CommName = document.createElement('select');
+            sel_CommName.multiple = true;
+            sel_CommName.size = 10;
+            sel_CommName.id = "sel_CommName";
+            var CommName_options_str = "<option value='' unselected></option>";
+            sel_CommName.onchange = function(){filterFunc()};
+            CommName_options_str  += '<option value="NULL">NULL</option>';
+            CommName_options_str  += '<option value="Adobe Sanicle">Adobe Sanicle</option>';
+            CommName_options_str  += '<option value="Adobe Yampah">Adobe Yampah</option>';
+            CommName_options_str  += '<option value="American badger">American badger</option>';
+            CommName_options_str  += '<option value="Arroyo De La Cruz Manzanita">Arroyo De La Cruz Manzanita</option>';
+            CommName_options_str  += '<option value="Atascadero June beetle">Atascadero June beetle</option>';
+            CommName_options_str  += '<option value="Beach Spectaclepod">Beach Spectaclepod</option>';
+            CommName_options_str  += '<option value="Betty&apos;s Dudleya">Betty&apos;s Dudleya</option>';
+            CommName_options_str  += '<option value="Betty&apos;s dudleya">Betty&apos;s dudleya</option>';
+            CommName_options_str  += '<option value="Bishop Manzanita">Bishop Manzanita</option>';
+            CommName_options_str  += '<option value="Black-Flowered Figwort">Black-Flowered Figwort</option>';
+            CommName_options_str  += '<option value="Blochman&apos;s Dudleya">Blochman&apos;s Dudleya</option>';
+            CommName_options_str  += '<option value="Blochman&apos;s Leafy Daisy">Blochman&apos;s Leafy Daisy</option>';
+            CommName_options_str  += '<option value="Blochman&apos;s Ragwort">Blochman&apos;s Ragwort</option>';
+            CommName_options_str  += '<option value="Blochman&apos;s dudleya">Blochman&apos;s dudleya</option>';
+            CommName_options_str  += '<option value="Blochman&apos;s leafy daisy">Blochman&apos;s leafy daisy</option>';
+            CommName_options_str  += '<option value="Blue Coast Gilia">Blue Coast Gilia</option>';
+            CommName_options_str  += '<option value="Bolander&apos;s Water-Hemlock">Bolander&apos;s Water-Hemlock</option>';
+            CommName_options_str  += '<option value="Brewer&apos;s Calandrinia">Brewer&apos;s Calandrinia</option>';
+            CommName_options_str  += '<option value="Brewer&apos;s Spineflower">Brewer&apos;s Spineflower</option>';
+            CommName_options_str  += '<option value="Brewer&apos;s spineflower">Brewer&apos;s spineflower</option>';
+            CommName_options_str  += '<option value="California Ridgway&apos;s rail">California Ridgway&apos;s rail</option>';
+            CommName_options_str  += '<option value="California Seablite">California Seablite</option>';
+            CommName_options_str  += '<option value="California Spineflower">California Spineflower</option>';
+            CommName_options_str  += '<option value="California Spotted Owl">California Spotted Owl</option>';
+            CommName_options_str  += '<option value="California black rail">California black rail</option>';
+            CommName_options_str  += '<option value="California horned lark">California horned lark</option>';
+            CommName_options_str  += '<option value="California linderiella">California linderiella</option>';
+            CommName_options_str  += '<option value="California red-legged frog">California red-legged frog</option>';
+            CommName_options_str  += '<option value="California seablite">California seablite</option>';
+            CommName_options_str  += '<option value="Cambria Morning-Glory">Cambria Morning-Glory</option>';
+            CommName_options_str  += '<option value="Cambria morning-glory">Cambria morning-glory</option>';
+            CommName_options_str  += '<option value="Carlotta Hall&apos;s Lace Fern">Carlotta Hall&apos;s Lace Fern</option>';
+            CommName_options_str  += '<option value="Carmel Valley Bush-Mallow">Carmel Valley Bush-Mallow</option>';
+            CommName_options_str  += '<option value="Catalina Mariposa Lily">Catalina Mariposa Lily</option>';
+            CommName_options_str  += '<option value="Central Dune Scrub">Central Dune Scrub</option>';
+            CommName_options_str  += '<option value="Central Foredunes">Central Foredunes</option>';
+            CommName_options_str  += '<option value="Central Maritime Chaparral">Central Maritime Chaparral</option>';
+            CommName_options_str  += '<option value="Chaparral Ragwort">Chaparral Ragwort</option>';
+            CommName_options_str  += '<option value="Chaparral Rein Orchid">Chaparral Rein Orchid</option>';
+            CommName_options_str  += '<option value="Chorro Creek bog thistle">Chorro Creek bog thistle</option>';
+            CommName_options_str  += '<option value="Club-Haired Mariposa Lily">Club-Haired Mariposa Lily</option>';
+            CommName_options_str  += '<option value="Coast Range newt">Coast Range newt</option>';
+            CommName_options_str  += '<option value="Coastal Brackish Marsh">Coastal Brackish Marsh</option>';
+            CommName_options_str  += '<option value="Coastal Goosefoot">Coastal Goosefoot</option>';
+            CommName_options_str  += '<option value="Coastal and Valley Freshwater Marsh">Coastal and Valley Freshwater Marsh</option>';
+            CommName_options_str  += '<option value="Compact Cobwebby Thistle">Compact Cobwebby Thistle</option>';
+            CommName_options_str  += '<option value="Congdon&apos;s Tarplant">Congdon&apos;s Tarplant</option>';
+            CommName_options_str  += '<option value="Congdon&apos;s tarplant">Congdon&apos;s tarplant</option>';
+            CommName_options_str  += '<option value="Cooper&apos;s hawk">Cooper&apos;s hawk</option>';
+            CommName_options_str  += '<option value="Coulter&apos;s Goldfields">Coulter&apos;s Goldfields</option>';
+            CommName_options_str  += '<option value="Coulter&apos;s Saltbush">Coulter&apos;s Saltbush</option>';
+            CommName_options_str  += '<option value="Coulter&apos;s goldfields">Coulter&apos;s goldfields</option>';
+            CommName_options_str  += '<option value="Coulter&apos;s saltbush">Coulter&apos;s saltbush</option>';
+            CommName_options_str  += '<option value="Crisp Monardella">Crisp Monardella</option>';
+            CommName_options_str  += '<option value="Crotch bumble bee">Crotch bumble bee</option>';
+            CommName_options_str  += '<option value="Cuesta Pass Checkerbloom">Cuesta Pass Checkerbloom</option>';
+            CommName_options_str  += '<option value="Cuesta Pass checkerbloom">Cuesta Pass checkerbloom</option>';
+            CommName_options_str  += '<option value="Cuesta Ridge Thistle">Cuesta Ridge Thistle</option>';
+            CommName_options_str  += '<option value="Cuesta Ridge thistle">Cuesta Ridge thistle</option>';
+            CommName_options_str  += '<option value="Cuyamaca Cypress">Cuyamaca Cypress</option>';
+            CommName_options_str  += '<option value="Dacite Manzanita">Dacite Manzanita</option>';
+            CommName_options_str  += '<option value="Diablo Canyon Blue Grass">Diablo Canyon Blue Grass</option>';
+            CommName_options_str  += '<option value="Diablo Canyon blue grass">Diablo Canyon blue grass</option>';
+            CommName_options_str  += '<option value="Dune Larkspur">Dune Larkspur</option>';
+            CommName_options_str  += '<option value="Dunedelion">Dunedelion</option>';
+            CommName_options_str  += '<option value="Dusky-Fruited Malacothrix">Dusky-Fruited Malacothrix</option>';
+            CommName_options_str  += '<option value="Dwarf Soaproot">Dwarf Soaproot</option>';
+            CommName_options_str  += '<option value="Eastwood&apos;s larkspur">Eastwood&apos;s larkspur</option>';
+            CommName_options_str  += '<option value="Eastwood?S Larkspur">Eastwood?S Larkspur</option>';
+            CommName_options_str  += '<option value="Elegant Wild Buckwheat">Elegant Wild Buckwheat</option>';
+            CommName_options_str  += '<option value="Fuzzy Prickly-Phlox">Fuzzy Prickly-Phlox</option>';
+            CommName_options_str  += '<option value="Hardham&apos;s evening-primrose">Hardham&apos;s evening-primrose</option>';
+            CommName_options_str  += '<option value="Hoffmann&apos;s Sanicle">Hoffmann&apos;s Sanicle</option>';
+            CommName_options_str  += '<option value="Hooked Popcornflower">Hooked Popcornflower</option>';
+            CommName_options_str  += '<option value="Hoover&apos;s Bent Grass">Hoover&apos;s Bent Grass</option>';
+            CommName_options_str  += '<option value="Hoover&apos;s Button-Celery">Hoover&apos;s Button-Celery</option>';
+            CommName_options_str  += '<option value="Hoover&apos;s bent grass">Hoover&apos;s bent grass</option>';
+            CommName_options_str  += '<option value="Hoover&apos;s button-celery">Hoover&apos;s button-celery</option>';
+            CommName_options_str  += '<option value="Indian Knob Mountainbalm">Indian Knob Mountainbalm</option>';
+            CommName_options_str  += '<option value="Indian Knob mountainbalm">Indian Knob mountainbalm</option>';
+            CommName_options_str  += '<option value="Irish Hills spineflower">Irish Hills spineflower</option>';
+            CommName_options_str  += '<option value="Jones&apos; Bush-Mallow">Jones&apos; Bush-Mallow</option>';
+            CommName_options_str  += '<option value="Jones&apos; Layia">Jones&apos; Layia</option>';
+            CommName_options_str  += '<option value="Jones&apos; layia">Jones&apos; layia</option>';
+            CommName_options_str  += '<option value="Kellogg&apos;s Horkelia">Kellogg&apos;s Horkelia</option>';
+            CommName_options_str  += '<option value="Kellogg&apos;s horkelia">Kellogg&apos;s horkelia</option>';
+            CommName_options_str  += '<option value="La Panza Mariposa Lily">La Panza Mariposa Lily</option>';
+            CommName_options_str  += '<option value="La Panza mariposa-lily">La Panza mariposa-lily</option>';
+            CommName_options_str  += '<option value="Lakeside Ceanothus">Lakeside Ceanothus</option>';
+            CommName_options_str  += '<option value="Large-Flowered Leptosiphon">Large-Flowered Leptosiphon</option>';
+            CommName_options_str  += '<option value="Large-Flowered Nemacladus">Large-Flowered Nemacladus</option>';
+            CommName_options_str  += '<option value="Lompoc Ceanothus">Lompoc Ceanothus</option>';
+            CommName_options_str  += '<option value="Maritime Ceanothus">Maritime Ceanothus</option>';
+            CommName_options_str  += '<option value="Marsh Sandwort">Marsh Sandwort</option>';
+            CommName_options_str  += '<option value="Marsh Zigadenus">Marsh Zigadenus</option>';
+            CommName_options_str  += '<option value="Mesa Horkelia">Mesa Horkelia</option>';
+            CommName_options_str  += '<option value="Michael&apos;s Rein Orchid">Michael&apos;s Rein Orchid</option>';
+            CommName_options_str  += '<option value="Miles&apos; Milk-Vetch">Miles&apos; Milk-Vetch</option>';
+            CommName_options_str  += '<option value="Miles&apos; milk-vetch">Miles&apos; milk-vetch</option>';
+            CommName_options_str  += '<option value="Monkey-Flower Savory">Monkey-Flower Savory</option>';
+            CommName_options_str  += '<option value="Monterey Ceanothus">Monterey Ceanothus</option>';
+            CommName_options_str  += '<option value="Monterey Cypress">Monterey Cypress</option>';
+            CommName_options_str  += '<option value="Monterey Pine">Monterey Pine</option>';
+            CommName_options_str  += '<option value="Morro Bay blue butterfly">Morro Bay blue butterfly</option>';
+            CommName_options_str  += '<option value="Morro Bay kangaroo rat">Morro Bay kangaroo rat</option>';
+            CommName_options_str  += '<option value="Morro Manzanita">Morro Manzanita</option>';
+            CommName_options_str  += '<option value="Morro manzanita">Morro manzanita</option>';
+            CommName_options_str  += '<option value="Morro shoulderband (=banded dune) snail">Morro shoulderband (=banded dune) snail</option>';
+            CommName_options_str  += '<option value="Most Beautiful Jewelflower">Most Beautiful Jewelflower</option>';
+            CommName_options_str  += '<option value="Mouse-Gray Dudleya">Mouse-Gray Dudleya</option>';
+            CommName_options_str  += '<option value="Nipomo Mesa Ceanothus">Nipomo Mesa Ceanothus</option>';
+            CommName_options_str  += '<option value="Nipomo Mesa ceanothus">Nipomo Mesa ceanothus</option>';
+            CommName_options_str  += '<option value="Northern California Black Walnut">Northern California Black Walnut</option>';
+            CommName_options_str  += '<option value="Northern California legless lizard">Northern California legless lizard</option>';
+            CommName_options_str  += '<option value="Northern Coastal Salt Marsh">Northern Coastal Salt Marsh</option>';
+            CommName_options_str  += '<option value="Northern Interior Cypress Forest">Northern Interior Cypress Forest</option>';
+            CommName_options_str  += '<option value="Ocean Bluff Milk-Vetch">Ocean Bluff Milk-Vetch</option>';
+            CommName_options_str  += '<option value="Ojai Fritillary">Ojai Fritillary</option>';
+            CommName_options_str  += '<option value="Ojai fritillary">Ojai fritillary</option>';
+            CommName_options_str  += '<option value="Oso Manzanita">Oso Manzanita</option>';
+            CommName_options_str  += '<option value="Oso manzanita">Oso manzanita</option>';
+            CommName_options_str  += '<option value="Palmer&apos;s Monardella">Palmer&apos;s Monardella</option>';
+            CommName_options_str  += '<option value="Palmer&apos;s Spineflower">Palmer&apos;s Spineflower</option>';
+            CommName_options_str  += '<option value="Palmer&apos;s monardella">Palmer&apos;s monardella</option>';
+            CommName_options_str  += '<option value="Paniculate Tarplant">Paniculate Tarplant</option>';
+            CommName_options_str  += '<option value="Pecho Manzanita">Pecho Manzanita</option>';
+            CommName_options_str  += '<option value="Pecho manzanita">Pecho manzanita</option>';
+            CommName_options_str  += '<option value="Peninsular Spineflower">Peninsular Spineflower</option>';
+            CommName_options_str  += '<option value="Perennial Goldfields">Perennial Goldfields</option>';
+            CommName_options_str  += '<option value="Pismo Clarkia">Pismo Clarkia</option>';
+            CommName_options_str  += '<option value="Pismo clarkia">Pismo clarkia</option>';
+            CommName_options_str  += '<option value="Point Reyes Bird&apos;s-Beak">Point Reyes Bird&apos;s-Beak</option>';
+            CommName_options_str  += '<option value="Point Reyes salty bird&apos;s-beak">Point Reyes salty bird&apos;s-beak</option>';
+            CommName_options_str  += '<option value="Popcorn Lichen">Popcorn Lichen</option>';
+            CommName_options_str  += '<option value="Red Sand-Verbena">Red Sand-Verbena</option>';
+            CommName_options_str  += '<option value="Saints&apos; Daisy">Saints&apos; Daisy</option>';
+            CommName_options_str  += '<option value="Salinas Valley Goldfields">Salinas Valley Goldfields</option>';
+            CommName_options_str  += '<option value="Salt Marsh Bird&apos;s-Beak">Salt Marsh Bird&apos;s-Beak</option>';
+            CommName_options_str  += '<option value="San Benito Poppy">San Benito Poppy</option>';
+            CommName_options_str  += '<option value="San Diego desert woodrat">San Diego desert woodrat</option>';
+            CommName_options_str  += '<option value="San Joaquin spearscale">San Joaquin spearscale</option>';
+            CommName_options_str  += '<option value="San Luis Mariposa Lily">San Luis Mariposa Lily</option>';
+            CommName_options_str  += '<option value="San Luis Obispo Ceanothus">San Luis Obispo Ceanothus</option>';
+            CommName_options_str  += '<option value="San Luis Obispo County Lupine">San Luis Obispo County Lupine</option>';
+            CommName_options_str  += '<option value="San Luis Obispo County lupine">San Luis Obispo County lupine</option>';
+            CommName_options_str  += '<option value="San Luis Obispo Fountain Thistle">San Luis Obispo Fountain Thistle</option>';
+            CommName_options_str  += '<option value="San Luis Obispo Monardella">San Luis Obispo Monardella</option>';
+            CommName_options_str  += '<option value="San Luis Obispo Sedge">San Luis Obispo Sedge</option>';
+            CommName_options_str  += '<option value="San Luis Obispo ceanothus">San Luis Obispo ceanothus</option>';
+            CommName_options_str  += '<option value="San Luis Obispo owl&apos;s-clover">San Luis Obispo owl&apos;s-clover</option>';
+            CommName_options_str  += '<option value="San Luis Obispo pyrg">San Luis Obispo pyrg</option>';
+            CommName_options_str  += '<option value="San Luis Obispo sedge">San Luis Obispo sedge</option>';
+            CommName_options_str  += '<option value="San Luis mariposa-lily">San Luis mariposa-lily</option>';
+            CommName_options_str  += '<option value="Sand Almond">Sand Almond</option>';
+            CommName_options_str  += '<option value="Sand Mesa Manzanita">Sand Mesa Manzanita</option>';
+            CommName_options_str  += '<option value="Santa Barbara Bedstraw">Santa Barbara Bedstraw</option>';
+            CommName_options_str  += '<option value="Santa Catalina Island Buckwheat">Santa Catalina Island Buckwheat</option>';
+            CommName_options_str  += '<option value="Santa Cruz Island Ironwood">Santa Cruz Island Ironwood</option>';
+            CommName_options_str  += '<option value="Santa Cruz Island Manzanita">Santa Cruz Island Manzanita</option>';
+            CommName_options_str  += '<option value="Santa Cruz Island Oak">Santa Cruz Island Oak</option>';
+            CommName_options_str  += '<option value="Santa Lucia Bush-Mallow">Santa Lucia Bush-Mallow</option>';
+            CommName_options_str  += '<option value="Santa Lucia Gooseberry">Santa Lucia Gooseberry</option>';
+            CommName_options_str  += '<option value="Santa Lucia Manzanita">Santa Lucia Manzanita</option>';
+            CommName_options_str  += '<option value="Santa Lucia bush-mallow">Santa Lucia bush-mallow</option>';
+            CommName_options_str  += '<option value="Santa Lucia manzanita">Santa Lucia manzanita</option>';
+            CommName_options_str  += '<option value="Santa Margarita Manzanita">Santa Margarita Manzanita</option>';
+            CommName_options_str  += '<option value="Santa Margarita manzanita">Santa Margarita manzanita</option>';
+            CommName_options_str  += '<option value="Santa Ynez False Lupine">Santa Ynez False Lupine</option>';
+            CommName_options_str  += '<option value="Serpentine Bunchgrass">Serpentine Bunchgrass</option>';
+            CommName_options_str  += '<option value="Small-Flowered Morning-Glory">Small-Flowered Morning-Glory</option>';
+            CommName_options_str  += '<option value="Small-Leaved Lomatium">Small-Leaved Lomatium</option>';
+            CommName_options_str  += '<option value="Soft-Leaved Paintbrush">Soft-Leaved Paintbrush</option>';
+            CommName_options_str  += '<option value="South Coast Range Morning-Glory">South Coast Range Morning-Glory</option>';
+            CommName_options_str  += '<option value="Southern California Black Walnut">Southern California Black Walnut</option>';
+            CommName_options_str  += '<option value="Southern Curly-Leaved Monardella">Southern Curly-Leaved Monardella</option>';
+            CommName_options_str  += '<option value="Southwestern Spiny Rush">Southwestern Spiny Rush</option>';
+            CommName_options_str  += '<option value="Steller sea lion">Steller sea lion</option>';
+            CommName_options_str  += '<option value="Stinkbells">Stinkbells</option>';
+            CommName_options_str  += '<option value="Straight-Awned Spineflower">Straight-Awned Spineflower</option>';
+            CommName_options_str  += '<option value="Suffrutescent Wallflower">Suffrutescent Wallflower</option>';
+            CommName_options_str  += '<option value="Swamp Larkspur">Swamp Larkspur</option>';
+            CommName_options_str  += '<option value="Tecate Cypress">Tecate Cypress</option>';
+            CommName_options_str  += '<option value="Townsend&apos;s big-eared bat">Townsend&apos;s big-eared bat</option>';
+            CommName_options_str  += '<option value="Valley Needlegrass Grassland">Valley Needlegrass Grassland</option>';
+            CommName_options_str  += '<option value="Vine Hill Manzanita">Vine Hill Manzanita</option>';
+            CommName_options_str  += '<option value="Wawona riffle beetle">Wawona riffle beetle</option>';
+            CommName_options_str  += '<option value="White-Haired Manzanita">White-Haired Manzanita</option>';
+            CommName_options_str  += '<option value="Woolly Seablite">Woolly Seablite</option>';
+            CommName_options_str  += '<option value="Yellow-Flowered Eriastrum">Yellow-Flowered Eriastrum</option>';
+            CommName_options_str  += '<option value="adobe sanicle">adobe sanicle</option>';
+            CommName_options_str  += '<option value="aparejo grass">aparejo grass</option>';
+            CommName_options_str  += '<option value="beach spectaclepod">beach spectaclepod</option>';
+            CommName_options_str  += '<option value="big free-tailed bat">big free-tailed bat</option>';
+            CommName_options_str  += '<option value="black-flowered figwort">black-flowered figwort</option>';
+            CommName_options_str  += '<option value="burrowing owl">burrowing owl</option>';
+            CommName_options_str  += '<option value="chaparral ragwort">chaparral ragwort</option>';
+            CommName_options_str  += '<option value="coast horned lizard">coast horned lizard</option>';
+            CommName_options_str  += '<option value="coast woolly-heads">coast woolly-heads</option>';
+            CommName_options_str  += '<option value="coastal goosefoot">coastal goosefoot</option>';
+            CommName_options_str  += '<option value="compact cobwebby thistle">compact cobwebby thistle</option>';
+            CommName_options_str  += '<option value="dacite manzanita">dacite manzanita</option>';
+            CommName_options_str  += '<option value="dune larkspur">dune larkspur</option>';
+            CommName_options_str  += '<option value="dwarf soaproot">dwarf soaproot</option>';
+            CommName_options_str  += '<option value="ferruginous hawk">ferruginous hawk</option>';
+            CommName_options_str  += '<option value="foothill yellow-legged frog">foothill yellow-legged frog</option>';
+            CommName_options_str  += '<option value="globose dune beetle">globose dune beetle</option>';
+            CommName_options_str  += '<option value="golden eagle">golden eagle</option>';
+            CommName_options_str  += '<option value="hooked popcornflower">hooked popcornflower</option>';
+            CommName_options_str  += '<option value="lesser slender salamander">lesser slender salamander</option>';
+            CommName_options_str  += '<option value="loggerhead shrike">loggerhead shrike</option>';
+            CommName_options_str  += '<option value="marsh sandwort">marsh sandwort</option>';
+            CommName_options_str  += '<option value="mesa horkelia">mesa horkelia</option>';
+            CommName_options_str  += '<option value="mimic tryonia (=California brackishwater snail)">mimic tryonia (=California brackishwater snail)</option>';
+            CommName_options_str  += '<option value="monarch - California overwintering population">monarch - California overwintering population</option>';
+            CommName_options_str  += '<option value="most beautiful jewelflower">most beautiful jewelflower</option>';
+            CommName_options_str  += '<option value="mouse-gray dudleya">mouse-gray dudleya</option>';
+            CommName_options_str  += '<option value="northern harrier">northern harrier</option>';
+            CommName_options_str  += '<option value="obscure bumble bee">obscure bumble bee</option>';
+            CommName_options_str  += '<option value="pallid bat">pallid bat</option>';
+            CommName_options_str  += '<option value="perennial goldfields">perennial goldfields</option>';
+            CommName_options_str  += '<option value="popcorn lichen">popcorn lichen</option>';
+            CommName_options_str  += '<option value="purple martin">purple martin</option>';
+            CommName_options_str  += '<option value="saline clover">saline clover</option>';
+            CommName_options_str  += '<option value="sand mesa manzanita">sand mesa manzanita</option>';
+            CommName_options_str  += '<option value="sandy beach tiger beetle">sandy beach tiger beetle</option>';
+            CommName_options_str  += '<option value="southern curly-leaved monardella">southern curly-leaved monardella</option>';
+            CommName_options_str  += '<option value="splitting yarn lichen">splitting yarn lichen</option>';
+            CommName_options_str  += '<option value="steelhead - south-central California coast DPS">steelhead - south-central California coast DPS</option>';
+            CommName_options_str  += '<option value="steelhead - southern California DPS">steelhead - southern California DPS</option>';
+            CommName_options_str  += '<option value="straight-awned spineflower">straight-awned spineflower</option>';
+            CommName_options_str  += '<option value="surf thistle">surf thistle</option>';
+            CommName_options_str  += '<option value="tidewater goby">tidewater goby</option>';
+            CommName_options_str  += '<option value="tricolored blackbird">tricolored blackbird</option>';
+            CommName_options_str  += '<option value="twisted horsehair lichen">twisted horsehair lichen</option>';
+            CommName_options_str  += '<option value="umbrella larkspur">umbrella larkspur</option>';
+            CommName_options_str  += '<option value="vernal pool fairy shrimp">vernal pool fairy shrimp</option>';
+            CommName_options_str  += '<option value="western bumble bee">western bumble bee</option>';
+            CommName_options_str  += '<option value="western mastiff bat">western mastiff bat</option>';
+            CommName_options_str  += '<option value="western pond turtle">western pond turtle</option>';
+            CommName_options_str  += '<option value="western snowy plover">western snowy plover</option>';
+            CommName_options_str  += '<option value="western spadefoot">western spadefoot</option>';
+            CommName_options_str  += '<option value="western yellow-billed cuckoo">western yellow-billed cuckoo</option>';
+            CommName_options_str  += '<option value="white-tailed kite">white-tailed kite</option>';
+            CommName_options_str  += '<option value="woodland woollythreads">woodland woollythreads</option>';
+            CommName_options_str  += '<option value="yellow-flowered eriastrum">yellow-flowered eriastrum</option>';
+            sel_CommName.innerHTML = CommName_options_str;
+            div_CommName.appendChild(sel_CommName);
+            var lab_CommName = document.createElement('div');
+            lab_CommName.innerHTML = 'CommName';
+            lab_CommName.className = 'filterlabel';
+            div_CommName.appendChild(lab_CommName);
+            var reset_CommName = document.createElement('div');
+            reset_CommName.innerHTML = 'clear filter';
+            reset_CommName.className = 'filterlabel';
+            reset_CommName.onclick = function() {
+                var options = document.getElementById("sel_CommName").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_CommName.appendChild(reset_CommName);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/StudyArea_1.js"></script>
+        <script src="data/3miBuffer_2.js"></script>
+        <script src="data/CNDDB_3.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[34.82825644169908,-117.21304460564482],[34.96629682902627,-116.97818461035648]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'feet',
+            secondaryLengthUnit: 'miles',
+            primaryAreaUnit: 'sqfeet',
+            secondaryAreaUnit: 'sqmiles'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleSatelliteHybrid_0');
+        map.getPane('pane_GoogleSatelliteHybrid_0').style.zIndex = 400;
+        var layer_GoogleSatelliteHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatelliteHybrid_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_GoogleSatelliteHybrid_0;
+        map.addLayer(layer_GoogleSatelliteHybrid_0);
+        function pop_StudyArea_1(feature, layer) {
+        }
+
+        function style_StudyArea_1_0() {
+            return {
+                pane: 'pane_StudyArea_1',
+                opacity: 1,
+                color: 'rgba(228,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_StudyArea_1');
+        map.getPane('pane_StudyArea_1').style.zIndex = 401;
+        map.getPane('pane_StudyArea_1').style['mix-blend-mode'] = 'normal';
+        var layer_StudyArea_1 = new L.geoJson(json_StudyArea_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_StudyArea_1',
+            layerName: 'layer_StudyArea_1',
+            pane: 'pane_StudyArea_1',
+            onEachFeature: pop_StudyArea_1,
+            style: style_StudyArea_1_0,
+        });
+        bounds_group.addLayer(layer_StudyArea_1);
+        map.addLayer(layer_StudyArea_1);
+        function pop_3miBuffer_2(feature, layer) {
+        }
+
+        function style_3miBuffer_2_0() {
+            return {
+                pane: 'pane_3miBuffer_2',
+                opacity: 1,
+                color: 'rgba(228,26,28,1.0)',
+                dashArray: '1,5',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_3miBuffer_2');
+        map.getPane('pane_3miBuffer_2').style.zIndex = 402;
+        map.getPane('pane_3miBuffer_2').style['mix-blend-mode'] = 'normal';
+        var layer_3miBuffer_2 = new L.geoJson(json_3miBuffer_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_3miBuffer_2',
+            layerName: 'layer_3miBuffer_2',
+            pane: 'pane_3miBuffer_2',
+            onEachFeature: pop_3miBuffer_2,
+            style: style_3miBuffer_2_0,
+        });
+        bounds_group.addLayer(layer_3miBuffer_2);
+        map.addLayer(layer_3miBuffer_2);
+        function pop_CNDDB_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">SNAME</th>\
+                        <td>' + (feature.properties['SNAME'] !== null ? autolinker.link(feature.properties['SNAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CNAME</th>\
+                        <td>' + (feature.properties['CNAME'] !== null ? autolinker.link(feature.properties['CNAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ELMCODE</th>\
+                        <td>' + (feature.properties['ELMCODE'] !== null ? autolinker.link(feature.properties['ELMCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OCCNUMBER</th>\
+                        <td>' + (feature.properties['OCCNUMBER'] !== null ? autolinker.link(feature.properties['OCCNUMBER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">MAPNDX</th>\
+                        <td>' + (feature.properties['MAPNDX'] !== null ? autolinker.link(feature.properties['MAPNDX'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">EONDX</th>\
+                        <td>' + (feature.properties['EONDX'] !== null ? autolinker.link(feature.properties['EONDX'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KEYQUAD</th>\
+                        <td>' + (feature.properties['KEYQUAD'] !== null ? autolinker.link(feature.properties['KEYQUAD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KQUADNAME</th>\
+                        <td>' + (feature.properties['KQUADNAME'] !== null ? autolinker.link(feature.properties['KQUADNAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">KEYCOUNTY</th>\
+                        <td>' + (feature.properties['KEYCOUNTY'] !== null ? autolinker.link(feature.properties['KEYCOUNTY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PLSS</th>\
+                        <td>' + (feature.properties['PLSS'] !== null ? autolinker.link(feature.properties['PLSS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ELEVATION</th>\
+                        <td>' + (feature.properties['ELEVATION'] !== null ? autolinker.link(feature.properties['ELEVATION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PARTS</th>\
+                        <td>' + (feature.properties['PARTS'] !== null ? autolinker.link(feature.properties['PARTS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ELMTYPE</th>\
+                        <td>' + (feature.properties['ELMTYPE'] !== null ? autolinker.link(feature.properties['ELMTYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">TAXONGROUP</th>\
+                        <td>' + (feature.properties['TAXONGROUP'] !== null ? autolinker.link(feature.properties['TAXONGROUP'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">EOCOUNT</th>\
+                        <td>' + (feature.properties['EOCOUNT'] !== null ? autolinker.link(feature.properties['EOCOUNT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ACCURACY</th>\
+                        <td>' + (feature.properties['ACCURACY'] !== null ? autolinker.link(feature.properties['ACCURACY'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PRESENCE</th>\
+                        <td>' + (feature.properties['PRESENCE'] !== null ? autolinker.link(feature.properties['PRESENCE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OCCTYPE</th>\
+                        <td>' + (feature.properties['OCCTYPE'] !== null ? autolinker.link(feature.properties['OCCTYPE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OCCRANK</th>\
+                        <td>' + (feature.properties['OCCRANK'] !== null ? autolinker.link(feature.properties['OCCRANK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SENSITIVE</th>\
+                        <td>' + (feature.properties['SENSITIVE'] !== null ? autolinker.link(feature.properties['SENSITIVE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SITEDATE</th>\
+                        <td>' + (feature.properties['SITEDATE'] !== null ? autolinker.link(feature.properties['SITEDATE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ELMDATE</th>\
+                        <td>' + (feature.properties['ELMDATE'] !== null ? autolinker.link(feature.properties['ELMDATE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OWNERMGT</th>\
+                        <td>' + (feature.properties['OWNERMGT'] !== null ? autolinker.link(feature.properties['OWNERMGT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">FEDLIST</th>\
+                        <td>' + (feature.properties['FEDLIST'] !== null ? autolinker.link(feature.properties['FEDLIST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CALLIST</th>\
+                        <td>' + (feature.properties['CALLIST'] !== null ? autolinker.link(feature.properties['CALLIST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GRANK</th>\
+                        <td>' + (feature.properties['GRANK'] !== null ? autolinker.link(feature.properties['GRANK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SRANK</th>\
+                        <td>' + (feature.properties['SRANK'] !== null ? autolinker.link(feature.properties['SRANK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">RPLANTRANK</th>\
+                        <td>' + (feature.properties['RPLANTRANK'] !== null ? autolinker.link(feature.properties['RPLANTRANK'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CDFWSTATUS</th>\
+                        <td>' + (feature.properties['CDFWSTATUS'] !== null ? autolinker.link(feature.properties['CDFWSTATUS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">OTHRSTATUS</th>\
+                        <td>' + (feature.properties['OTHRSTATUS'] !== null ? autolinker.link(feature.properties['OTHRSTATUS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LOCATION</th>\
+                        <td>' + (feature.properties['LOCATION'] !== null ? autolinker.link(feature.properties['LOCATION'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LOCDETAILS</th>\
+                        <td>' + (feature.properties['LOCDETAILS'] !== null ? autolinker.link(feature.properties['LOCDETAILS'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ECOLOGICAL</th>\
+                        <td>' + (feature.properties['ECOLOGICAL'] !== null ? autolinker.link(feature.properties['ECOLOGICAL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">GENERAL</th>\
+                        <td>' + (feature.properties['GENERAL'] !== null ? autolinker.link(feature.properties['GENERAL'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">THREAT</th>\
+                        <td>' + (feature.properties['THREAT'] !== null ? autolinker.link(feature.properties['THREAT'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">THREATLIST</th>\
+                        <td>' + (feature.properties['THREATLIST'] !== null ? autolinker.link(feature.properties['THREATLIST'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">LASTUPDATE</th>\
+                        <td>' + (feature.properties['LASTUPDATE'] !== null ? autolinker.link(feature.properties['LASTUPDATE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AREA</th>\
+                        <td>' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PERIMETER</th>\
+                        <td>' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">AVLCODE</th>\
+                        <td>' + (feature.properties['AVLCODE'] !== null ? autolinker.link(feature.properties['AVLCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Symbology</th>\
+                        <td>' + (feature.properties['Symbology'] !== null ? autolinker.link(feature.properties['Symbology'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_CNDDB_3_0(feature) {
+            switch(String(feature.properties['CNAME'])) {
+                case 'arroyo toad':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(46,210,51,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'Barstow woolly sunflower':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(55,166,222,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'Beaver Dam breadroot':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(95,67,217,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'burrowing owl':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(209,116,73,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'chaparral sand-verbena':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(237,60,155,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'creamy blazing star':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(129,154,228,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'desert tortoise':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(100,212,152,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'Le Conte\'s thrasher':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(180,215,21,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'Mohave ground squirrel':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(128,226,63,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'Mojave fringe-toed lizard':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(215,34,52,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'Mojave monkeyflower':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(161,88,206,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'Parish\'s phacelia':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(112,226,213,0.603)',
+                interactive: true,
+            }
+                    break;
+                case 'spiny-hair blazing star':
+                    return {
+                pane: 'pane_CNDDB_3',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.603)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(212,118,209,0.603)',
+                interactive: true,
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_CNDDB_3');
+        map.getPane('pane_CNDDB_3').style.zIndex = 403;
+        map.getPane('pane_CNDDB_3').style['mix-blend-mode'] = 'normal';
+        var layer_CNDDB_3 = new L.geoJson(json_CNDDB_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_CNDDB_3',
+            layerName: 'layer_CNDDB_3',
+            pane: 'pane_CNDDB_3',
+            onEachFeature: pop_CNDDB_3,
+            style: style_CNDDB_3_0,
+        });
+        bounds_group.addLayer(layer_CNDDB_3);
+        map.addLayer(layer_CNDDB_3);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'CNDDB<br /><table><tr><td style="text-align: center;"><img src="legend/CNDDB_3_arroyotoad0.png" /></td><td>arroyo toad</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_Barstowwoollysunflower1.png" /></td><td>Barstow woolly sunflower</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_BeaverDambreadroot2.png" /></td><td>Beaver Dam breadroot</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_burrowingowl3.png" /></td><td>burrowing owl</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_chaparralsandverbena4.png" /></td><td>chaparral sand-verbena</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_creamyblazingstar5.png" /></td><td>creamy blazing star</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_deserttortoise6.png" /></td><td>desert tortoise</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_LeContesthrasher7.png" /></td><td>Le Conte\'s thrasher</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_Mohavegroundsquirrel8.png" /></td><td>Mohave ground squirrel</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_Mojavefringetoedlizard9.png" /></td><td>Mojave fringe-toed lizard</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_Mojavemonkeyflower10.png" /></td><td>Mojave monkeyflower</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_Parishsphacelia11.png" /></td><td>Parish\'s phacelia</td></tr><tr><td style="text-align: center;"><img src="legend/CNDDB_3_spinyhairblazingstar12.png" /></td><td>spiny-hair blazing star</td></tr></table>': layer_CNDDB_3,'<img src="legend/3miBuffer_2.png" /> 3-mi Buffer': layer_3miBuffer_2,'<img src="legend/StudyArea_1.png" /> Study Area': layer_StudyArea_1,"Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"CNAME": "str","CALLIST": "str","FEDLIST": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_CNAME = document.createElement('div');
+            div_CNAME.id = "div_CNAME";
+            div_CNAME.className= "filterselect";
+            document.getElementById("menu").appendChild(div_CNAME);
+            sel_CNAME = document.createElement('select');
+            sel_CNAME.multiple = true;
+            sel_CNAME.size = 10;
+            sel_CNAME.id = "sel_CNAME";
+            var CNAME_options_str = "<option value='' unselected></option>";
+            sel_CNAME.onchange = function(){filterFunc()};
+            CNAME_options_str  += '<option value="Barstow woolly sunflower">Barstow woolly sunflower</option>';
+            CNAME_options_str  += '<option value="Beaver Dam breadroot">Beaver Dam breadroot</option>';
+            CNAME_options_str  += '<option value="Le Conte&apos;s thrasher">Le Conte&apos;s thrasher</option>';
+            CNAME_options_str  += '<option value="Mohave ground squirrel">Mohave ground squirrel</option>';
+            CNAME_options_str  += '<option value="Mojave fringe-toed lizard">Mojave fringe-toed lizard</option>';
+            CNAME_options_str  += '<option value="Mojave monkeyflower">Mojave monkeyflower</option>';
+            CNAME_options_str  += '<option value="Parish&apos;s phacelia">Parish&apos;s phacelia</option>';
+            CNAME_options_str  += '<option value="arroyo toad">arroyo toad</option>';
+            CNAME_options_str  += '<option value="burrowing owl">burrowing owl</option>';
+            CNAME_options_str  += '<option value="chaparral sand-verbena">chaparral sand-verbena</option>';
+            CNAME_options_str  += '<option value="creamy blazing star">creamy blazing star</option>';
+            CNAME_options_str  += '<option value="desert tortoise">desert tortoise</option>';
+            CNAME_options_str  += '<option value="spiny-hair blazing star">spiny-hair blazing star</option>';
+            sel_CNAME.innerHTML = CNAME_options_str;
+            div_CNAME.appendChild(sel_CNAME);
+            var lab_CNAME = document.createElement('div');
+            lab_CNAME.innerHTML = 'CNAME';
+            lab_CNAME.className = 'filterlabel';
+            div_CNAME.appendChild(lab_CNAME);
+            var reset_CNAME = document.createElement('div');
+            reset_CNAME.innerHTML = 'clear filter';
+            reset_CNAME.className = 'filterlabel';
+            reset_CNAME.onclick = function() {
+                var options = document.getElementById("sel_CNAME").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_CNAME.appendChild(reset_CNAME);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_CALLIST = document.createElement('div');
+            div_CALLIST.id = "div_CALLIST";
+            div_CALLIST.className= "filterselect";
+            document.getElementById("menu").appendChild(div_CALLIST);
+            sel_CALLIST = document.createElement('select');
+            sel_CALLIST.multiple = true;
+            sel_CALLIST.size = 2;
+            sel_CALLIST.id = "sel_CALLIST";
+            var CALLIST_options_str = "<option value='' unselected></option>";
+            sel_CALLIST.onchange = function(){filterFunc()};
+            CALLIST_options_str  += '<option value="None">None</option>';
+            CALLIST_options_str  += '<option value="Threatened">Threatened</option>';
+            sel_CALLIST.innerHTML = CALLIST_options_str;
+            div_CALLIST.appendChild(sel_CALLIST);
+            var lab_CALLIST = document.createElement('div');
+            lab_CALLIST.innerHTML = 'CALLIST';
+            lab_CALLIST.className = 'filterlabel';
+            div_CALLIST.appendChild(lab_CALLIST);
+            var reset_CALLIST = document.createElement('div');
+            reset_CALLIST.innerHTML = 'clear filter';
+            reset_CALLIST.className = 'filterlabel';
+            reset_CALLIST.onclick = function() {
+                var options = document.getElementById("sel_CALLIST").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_CALLIST.appendChild(reset_CALLIST);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_FEDLIST = document.createElement('div');
+            div_FEDLIST.id = "div_FEDLIST";
+            div_FEDLIST.className= "filterselect";
+            document.getElementById("menu").appendChild(div_FEDLIST);
+            sel_FEDLIST = document.createElement('select');
+            sel_FEDLIST.multiple = true;
+            sel_FEDLIST.size = 3;
+            sel_FEDLIST.id = "sel_FEDLIST";
+            var FEDLIST_options_str = "<option value='' unselected></option>";
+            sel_FEDLIST.onchange = function(){filterFunc()};
+            FEDLIST_options_str  += '<option value="Endangered">Endangered</option>';
+            FEDLIST_options_str  += '<option value="None">None</option>';
+            FEDLIST_options_str  += '<option value="Threatened">Threatened</option>';
+            sel_FEDLIST.innerHTML = FEDLIST_options_str;
+            div_FEDLIST.appendChild(sel_FEDLIST);
+            var lab_FEDLIST = document.createElement('div');
+            lab_FEDLIST.innerHTML = 'FEDLIST';
+            lab_FEDLIST.className = 'filterlabel';
+            div_FEDLIST.appendChild(lab_FEDLIST);
+            var reset_FEDLIST = document.createElement('div');
+            reset_FEDLIST.innerHTML = 'clear filter';
+            reset_FEDLIST.className = 'filterlabel';
+            reset_FEDLIST.onclick = function() {
+                var options = document.getElementById("sel_FEDLIST").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_FEDLIST.appendChild(reset_FEDLIST);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/filter.css">
+<link rel="stylesheet" href="css/nouislider.min.css">
+        <link rel="stylesheet" href="css/leaflet-measure.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-measure.js"></script>
+        <script src="js/tailDT.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="js/wNumb.js"></script>
+        <script src="data/quads_1.js"></script>
+        <script src="data/Polygons_2.js"></script>
+        <script src="data/Points_3.js"></script>
+        <script src="data/StudyArea_4.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[35.38146181409166,-121.31147294935994],[36.01309172975953,-120.40798865495884]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'feet',
+            secondaryLengthUnit: 'miles',
+            primaryAreaUnit: 'sqfeet',
+            secondaryAreaUnit: 'sqmiles'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+        .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_GoogleSatelliteHybrid_0');
+        map.getPane('pane_GoogleSatelliteHybrid_0').style.zIndex = 400;
+        var layer_GoogleSatelliteHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatelliteHybrid_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_GoogleSatelliteHybrid_0;
+        map.addLayer(layer_GoogleSatelliteHybrid_0);
+        function pop_quads_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['QUADCODE'] !== null ? autolinker.link(feature.properties['QUADCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['USGSCODE'] !== null ? autolinker.link(feature.properties['USGSCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['CNPSCODE'] !== null ? autolinker.link(feature.properties['CNPSCODE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['QUADNAME'] !== null ? autolinker.link(feature.properties['QUADNAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['QUADSIZE'] !== null ? autolinker.link(feature.properties['QUADSIZE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Q24YEAR'] !== null ? autolinker.link(feature.properties['Q24YEAR'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Q100NAME'] !== null ? autolinker.link(feature.properties['Q100NAME'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['BORDER'] !== null ? autolinker.link(feature.properties['BORDER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['UTMZONE'] !== null ? autolinker.link(feature.properties['UTMZONE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['B_M'] !== null ? autolinker.link(feature.properties['B_M'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['SENSITIVE'] !== null ? autolinker.link(feature.properties['SENSITIVE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['PERIMETER'] !== null ? autolinker.link(feature.properties['PERIMETER'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['AREA'] !== null ? autolinker.link(feature.properties['AREA'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_quads_1_0() {
+            return {
+                pane: 'pane_quads_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(190,207,80,0.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_quads_1');
+        map.getPane('pane_quads_1').style.zIndex = 401;
+        map.getPane('pane_quads_1').style['mix-blend-mode'] = 'normal';
+        var layer_quads_1 = new L.geoJson(json_quads_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_quads_1',
+            layerName: 'layer_quads_1',
+            pane: 'pane_quads_1',
+            onEachFeature: pop_quads_1,
+            style: style_quads_1_0,
+        });
+        bounds_group.addLayer(layer_quads_1);
+        map.addLayer(layer_quads_1);
+        function pop_Polygons_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">SciName</th>\
+                        <td>' + (feature.properties['SciName'] !== null ? autolinker.link(feature.properties['SciName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">CommName</th>\
+                        <td>' + (feature.properties['CommName'] !== null ? autolinker.link(feature.properties['CommName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ObsDate</th>\
+                        <td>' + (feature.properties['ObsDate'] !== null ? autolinker.link(feature.properties['ObsDate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Notes</th>\
+                        <td>' + (feature.properties['Notes'] !== null ? autolinker.link(feature.properties['Notes'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Source</th>\
+                        <td>' + (feature.properties['Source'] !== null ? autolinker.link(feature.properties['Source'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Polygons_2_0() {
+            return {
+                pane: 'pane_Polygons_2',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(219,161,233,0.28627450980392155)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Polygons_2');
+        map.getPane('pane_Polygons_2').style.zIndex = 402;
+        map.getPane('pane_Polygons_2').style['mix-blend-mode'] = 'normal';
+        var layer_Polygons_2 = new L.geoJson(json_Polygons_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Polygons_2',
+            layerName: 'layer_Polygons_2',
+            pane: 'pane_Polygons_2',
+            onEachFeature: pop_Polygons_2,
+            style: style_Polygons_2_0,
+        });
+        bounds_group.addLayer(layer_Polygons_2);
+        map.addLayer(layer_Polygons_2);
+        function pop_Points_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">CommName</th>\
+                        <td>' + (feature.properties['CommName'] !== null ? autolinker.link(feature.properties['CommName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ID</th>\
+                        <td>' + (feature.properties['ID'] !== null ? autolinker.link(feature.properties['ID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Notes</th>\
+                        <td>' + (feature.properties['Notes'] !== null ? autolinker.link(feature.properties['Notes'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">ObsDate</th>\
+                        <td>' + (feature.properties['ObsDate'] !== null ? autolinker.link(feature.properties['ObsDate'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">SciName</th>\
+                        <td>' + (feature.properties['SciName'] !== null ? autolinker.link(feature.properties['SciName'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Source</th>\
+                        <td>' + (feature.properties['Source'] !== null ? autolinker.link(feature.properties['Source'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">Type</th>\
+                        <td>' + (feature.properties['Type'] !== null ? autolinker.link(feature.properties['Type'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Points_3_0() {
+            return {
+                pane: 'pane_Points_3',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(0,246,0,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_Points_3');
+        map.getPane('pane_Points_3').style.zIndex = 403;
+        map.getPane('pane_Points_3').style['mix-blend-mode'] = 'normal';
+        var layer_Points_3 = new L.geoJson(json_Points_3, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Points_3',
+            layerName: 'layer_Points_3',
+            pane: 'pane_Points_3',
+            onEachFeature: pop_Points_3,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Points_3_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer_Points_3);
+        map.addLayer(layer_Points_3);
+        function pop_StudyArea_4(feature, layer) {
+        }
+
+        function style_StudyArea_4_0() {
+            return {
+                pane: 'pane_StudyArea_4',
+                opacity: 1,
+                color: 'rgba(228,26,28,1.0)',
+                dashArray: '',
+                lineCap: 'square',
+                lineJoin: 'bevel',
+                weight: 4.0,
+                fillOpacity: 0,
+                interactive: true,
+            }
+        }
+        map.createPane('pane_StudyArea_4');
+        map.getPane('pane_StudyArea_4').style.zIndex = 404;
+        map.getPane('pane_StudyArea_4').style['mix-blend-mode'] = 'normal';
+        var layer_StudyArea_4 = new L.geoJson(json_StudyArea_4, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_StudyArea_4',
+            layerName: 'layer_StudyArea_4',
+            pane: 'pane_StudyArea_4',
+            onEachFeature: pop_StudyArea_4,
+            style: style_StudyArea_4_0,
+        });
+        bounds_group.addLayer(layer_StudyArea_4);
+        map.addLayer(layer_StudyArea_4);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/StudyArea_4.png" /> Study Area': layer_StudyArea_4,'<img src="legend/Points_3.png" /> Points': layer_Points_3,'<img src="legend/Polygons_2.png" /> Polygons': layer_Polygons_2,'<img src="legend/quads_1.png" /> quads': layer_quads_1,"Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_quads_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['QUADNAME'] !== null?String('<div style="color: #ffffff; font-size: 13pt; font-weight: bold; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['QUADNAME']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_quads_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        var mapDiv = document.getElementById('map');
+        var row = document.createElement('div');
+        row.className="row";
+        row.id="all";
+        row.style.height = "100%";
+        var col1 = document.createElement('div');
+        col1.className="col9";
+        col1.id = "mapWindow";
+        col1.style.height = "99%";
+        col1.style.width = "80%";
+        col1.style.display = "inline-block";
+        var col2 = document.createElement('div');
+        col2.className="col3";
+        col2.id = "menu";
+        col2.style.display = "inline-block";
+        mapDiv.parentNode.insertBefore(row, mapDiv);
+        document.getElementById("all").appendChild(col1);
+        document.getElementById("all").appendChild(col2);
+        col1.appendChild(mapDiv)
+        var Filters = {"SciName": "str","CommName": "str"};
+        function filterFunc() {
+          map.eachLayer(function(lyr){
+          if ("options" in lyr && "dataVar" in lyr["options"]){
+            features = this[lyr["options"]["dataVar"]].features.slice(0);
+            try{
+              for (key in Filters){
+                keyS = key.replace(/[^a-zA-Z0-9_]/g, "")
+                if (Filters[key] == "str" || Filters[key] == "bool"){
+                  var selection = [];
+                  var options = document.getElementById("sel_" + keyS).options
+                  for (var i=0; i < options.length; i++) {
+                    if (options[i].selected) selection.push(options[i].value);
+                  }
+                    try{
+                      if (key in features[0].properties){
+                        for (i = features.length - 1;
+                          i >= 0; --i){
+                          if (selection.indexOf(
+                          features[i].properties[key])<0
+                          && selection.length>0) {
+                          features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                  }
+                }
+                if (Filters[key] == "int"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (parseInt(features[i].properties[key])
+                          < sliderVals[0]
+                          || parseInt(features[i].properties[key])
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "real"){
+                  sliderVals =  document.getElementById(
+                    "div_" + keyS).noUiSlider.get();
+                  try{
+                    if (key in features[0].properties){
+                    for (i = features.length - 1; i >= 0; --i){
+                      if (features[i].properties[key]
+                          < sliderVals[0]
+                          || features[i].properties[key]
+                          > sliderVals[1]){
+                            features.splice(i,1);
+                          }
+                        }
+                      }
+                    } catch(err){
+                    }
+                  }
+                if (Filters[key] == "date"
+                  || Filters[key] == "datetime"
+                  || Filters[key] == "time"){
+                  try{
+                    if (key in features[0].properties){
+                      HTMLkey = key.replace(/[&\/\\#,+()$~%.'":*?<>{} ]/g, '');
+                      startdate = document.getElementById("dat_" +
+                        HTMLkey + "_date1").value.replace(" ", "T");
+                      enddate = document.getElementById("dat_" +
+                        HTMLkey + "_date2").value.replace(" ", "T");
+                      for (i = features.length - 1; i >= 0; --i){
+                        if (features[i].properties[key] < startdate
+                          || features[i].properties[key] > enddate){
+                          features.splice(i,1);
+                        }
+                      }
+                    }
+                  } catch(err){
+                  }
+                }
+              }
+            } catch(err){
+            }
+          this[lyr["options"]["layerName"]].clearLayers();
+          this[lyr["options"]["layerName"]].addData(features);
+        var i = 0;
+        layer_quads_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['QUADNAME'] !== null?String('<div style="color: #ffffff; font-size: 13pt; font-weight: bold; font-family: \'MS Shell Dlg 2\', sans-serif;">' + layer.feature.properties['QUADNAME']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_quads_1'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+          }
+          })
+        }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_SciName = document.createElement('div');
+            div_SciName.id = "div_SciName";
+            div_SciName.className= "filterselect";
+            document.getElementById("menu").appendChild(div_SciName);
+            sel_SciName = document.createElement('select');
+            sel_SciName.multiple = true;
+            sel_SciName.size = 10;
+            sel_SciName.id = "sel_SciName";
+            var SciName_options_str = "<option value='' unselected></option>";
+            sel_SciName.onchange = function(){filterFunc()};
+            SciName_options_str  += '<option value="Abies bracteata">Abies bracteata</option>';
+            SciName_options_str  += '<option value="Agelaius tricolor">Agelaius tricolor</option>';
+            SciName_options_str  += '<option value="Agrostis hooveri">Agrostis hooveri</option>';
+            SciName_options_str  += '<option value="Amsinckia douglasiana">Amsinckia douglasiana</option>';
+            SciName_options_str  += '<option value="Anniella pulchra">Anniella pulchra</option>';
+            SciName_options_str  += '<option value="Antirrhinum ovatum">Antirrhinum ovatum</option>';
+            SciName_options_str  += '<option value="Antrozous pallidus">Antrozous pallidus</option>';
+            SciName_options_str  += '<option value="Aquila chrysaetos">Aquila chrysaetos</option>';
+            SciName_options_str  += '<option value="Arctostaphylos hooveri">Arctostaphylos hooveri</option>';
+            SciName_options_str  += '<option value="Arctostaphylos luciana">Arctostaphylos luciana</option>';
+            SciName_options_str  += '<option value="Arctostaphylos obispoensis">Arctostaphylos obispoensis</option>';
+            SciName_options_str  += '<option value="Ardea herodias">Ardea herodias</option>';
+            SciName_options_str  += '<option value="Aristocapsa insignis">Aristocapsa insignis</option>';
+            SciName_options_str  += '<option value="Astragalus macrodon">Astragalus macrodon</option>';
+            SciName_options_str  += '<option value="Astragalus nuttallii var. nuttallii">Astragalus nuttallii var. nuttallii</option>';
+            SciName_options_str  += '<option value="Athene cunicularia">Athene cunicularia</option>';
+            SciName_options_str  += '<option value="Azolla microphylla">Azolla microphylla</option>';
+            SciName_options_str  += '<option value="Batrachoseps minor">Batrachoseps minor</option>';
+            SciName_options_str  += '<option value="Bombus crotchii">Bombus crotchii</option>';
+            SciName_options_str  += '<option value="Branchinecta lynchi">Branchinecta lynchi</option>';
+            SciName_options_str  += '<option value="Buteo regalis">Buteo regalis</option>';
+            SciName_options_str  += '<option value="Calandrinia breweri">Calandrinia breweri</option>';
+            SciName_options_str  += '<option value="Calochortus simulans">Calochortus simulans</option>';
+            SciName_options_str  += '<option value="Calycadenia villosa">Calycadenia villosa</option>';
+            SciName_options_str  += '<option value="Calystegia collina subsp. venusta">Calystegia collina subsp. venusta</option>';
+            SciName_options_str  += '<option value="Camissoniopsis hardhamiae">Camissoniopsis hardhamiae</option>';
+            SciName_options_str  += '<option value="Castilleja densiflora var. obispoensis">Castilleja densiflora var. obispoensis</option>';
+            SciName_options_str  += '<option value="Caulanthus lemmonii">Caulanthus lemmonii</option>';
+            SciName_options_str  += '<option value="Chlorogalum purpureum var. purpureum">Chlorogalum purpureum var. purpureum</option>';
+            SciName_options_str  += '<option value="Chorizanthe douglasii">Chorizanthe douglasii</option>';
+            SciName_options_str  += '<option value="Chorizanthe palmeri">Chorizanthe palmeri</option>';
+            SciName_options_str  += '<option value="Chorizanthe rectispina">Chorizanthe rectispina</option>';
+            SciName_options_str  += '<option value="Clinopodium mimuloides">Clinopodium mimuloides</option>';
+            SciName_options_str  += '<option value="Corynorhinus townsendii">Corynorhinus townsendii</option>';
+            SciName_options_str  += '<option value="Delphinium parryi ssp. eastwoodiae">Delphinium parryi ssp. eastwoodiae</option>';
+            SciName_options_str  += '<option value="Delphinium umbraculorum">Delphinium umbraculorum</option>';
+            SciName_options_str  += '<option value="Emys marmorata">Emys marmorata</option>';
+            SciName_options_str  += '<option value="Entosthodon kochii">Entosthodon kochii</option>';
+            SciName_options_str  += '<option value="Eremophila alpestris actia">Eremophila alpestris actia</option>';
+            SciName_options_str  += '<option value="Eriastrum luteum">Eriastrum luteum</option>';
+            SciName_options_str  += '<option value="Eriogonum elegans">Eriogonum elegans</option>';
+            SciName_options_str  += '<option value="Eriogonum temblorense">Eriogonum temblorense</option>';
+            SciName_options_str  += '<option value="Erythranthe hardhamiae">Erythranthe hardhamiae</option>';
+            SciName_options_str  += '<option value="Eschscholzia hypecoides">Eschscholzia hypecoides</option>';
+            SciName_options_str  += '<option value="Falco mexicanus">Falco mexicanus</option>';
+            SciName_options_str  += '<option value="Fritillaria ojaiensis">Fritillaria ojaiensis</option>';
+            SciName_options_str  += '<option value="Galium hardhamiae">Galium hardhamiae</option>';
+            SciName_options_str  += '<option value="Gilia tenuiflora subsp. amplifaucalis">Gilia tenuiflora subsp. amplifaucalis</option>';
+            SciName_options_str  += '<option value="Haliaeetus leucocephalus">Haliaeetus leucocephalus</option>';
+            SciName_options_str  += '<option value="Hesperevax caulescens">Hesperevax caulescens</option>';
+            SciName_options_str  += '<option value="Horkelia cuneata var. puberula">Horkelia cuneata var. puberula</option>';
+            SciName_options_str  += '<option value="Horkelia cuneata var. sericea">Horkelia cuneata var. sericea</option>';
+            SciName_options_str  += '<option value="Juglans californica">Juglans californica</option>';
+            SciName_options_str  += '<option value="Juglans hindsii">Juglans hindsii</option>';
+            SciName_options_str  += '<option value="Juncus luciensis">Juncus luciensis</option>';
+            SciName_options_str  += '<option value="Lasiurus cinereus">Lasiurus cinereus</option>';
+            SciName_options_str  += '<option value="Lasthenia leptalea">Lasthenia leptalea</option>';
+            SciName_options_str  += '<option value="Lavinia exilicauda harengus">Lavinia exilicauda harengus</option>';
+            SciName_options_str  += '<option value="Layia heterotricha">Layia heterotricha</option>';
+            SciName_options_str  += '<option value="Lepidium jaredii ssp. jaredii">Lepidium jaredii ssp. jaredii</option>';
+            SciName_options_str  += '<option value="Lessingia tenuis">Lessingia tenuis</option>';
+            SciName_options_str  += '<option value="Lomatium parvifolium">Lomatium parvifolium</option>';
+            SciName_options_str  += '<option value="Malacothamnus davidsonii">Malacothamnus davidsonii</option>';
+            SciName_options_str  += '<option value="Malacothamnus jonesii">Malacothamnus jonesii</option>';
+            SciName_options_str  += '<option value="Malacothamnus palmeri var. palmeri">Malacothamnus palmeri var. palmeri</option>';
+            SciName_options_str  += '<option value="Malacothrix phaeocarpa">Malacothrix phaeocarpa</option>';
+            SciName_options_str  += '<option value="Masticophis flagellum ruddocki">Masticophis flagellum ruddocki</option>';
+            SciName_options_str  += '<option value="Meconella oregana">Meconella oregana</option>';
+            SciName_options_str  += '<option value="Monardella palmeri">Monardella palmeri</option>';
+            SciName_options_str  += '<option value="Monolopia gracilens">Monolopia gracilens</option>';
+            SciName_options_str  += '<option value="Mucronea californica">Mucronea californica</option>';
+            SciName_options_str  += '<option value="Navarretia nigelliformis ssp. radians">Navarretia nigelliformis ssp. radians</option>';
+            SciName_options_str  += '<option value="Navarretia nigelliformis subsp. radians">Navarretia nigelliformis subsp. radians</option>';
+            SciName_options_str  += '<option value="Navarretia prostrata">Navarretia prostrata</option>';
+            SciName_options_str  += '<option value="Nemacladus secundiflorus var. robbinsii">Nemacladus secundiflorus var. robbinsii</option>';
+            SciName_options_str  += '<option value="Nemacladus secundiflorus var. secundiflorus">Nemacladus secundiflorus var. secundiflorus</option>';
+            SciName_options_str  += '<option value="Neotoma macrotis luciana">Neotoma macrotis luciana</option>';
+            SciName_options_str  += '<option value="Oncorhynchus mykiss irideus pop. 9">Oncorhynchus mykiss irideus pop. 9</option>';
+            SciName_options_str  += '<option value="Pentachaeta exilis subsp. aeolica">Pentachaeta exilis subsp. aeolica</option>';
+            SciName_options_str  += '<option value="Perognathus inornatus psammophilus">Perognathus inornatus psammophilus</option>';
+            SciName_options_str  += '<option value="Phrynosoma blainvillii">Phrynosoma blainvillii</option>';
+            SciName_options_str  += '<option value="Piperia Michaelii">Piperia Michaelii</option>';
+            SciName_options_str  += '<option value="Piperia michaelii">Piperia michaelii</option>';
+            SciName_options_str  += '<option value="Plagiobothrys uncinatus">Plagiobothrys uncinatus</option>';
+            SciName_options_str  += '<option value="Polyphylla nubila">Polyphylla nubila</option>';
+            SciName_options_str  += '<option value="Rana boylii">Rana boylii</option>';
+            SciName_options_str  += '<option value="Rana draytonii">Rana draytonii</option>';
+            SciName_options_str  += '<option value="Ribes sericeum">Ribes sericeum</option>';
+            SciName_options_str  += '<option value="Romneya coulteri">Romneya coulteri</option>';
+            SciName_options_str  += '<option value="Senecio aphanactis">Senecio aphanactis</option>';
+            SciName_options_str  += '<option value="Senecio astephanus">Senecio astephanus</option>';
+            SciName_options_str  += '<option value="Setophaga petechia">Setophaga petechia</option>';
+            SciName_options_str  += '<option value="Sidalcea hickmanii subsp. parishii">Sidalcea hickmanii subsp. parishii</option>';
+            SciName_options_str  += '<option value="Spea hammondii">Spea hammondii</option>';
+            SciName_options_str  += '<option value="Stebbinsoseris decipiens">Stebbinsoseris decipiens</option>';
+            SciName_options_str  += '<option value="Streptanthus albidus ssp. peramoenus">Streptanthus albidus ssp. peramoenus</option>';
+            SciName_options_str  += '<option value="Streptanthus albidus subsp. peramoenus">Streptanthus albidus subsp. peramoenus</option>';
+            SciName_options_str  += '<option value="Strix occidentalis occidentalis">Strix occidentalis occidentalis</option>';
+            SciName_options_str  += '<option value="Stylocline masonii">Stylocline masonii</option>';
+            SciName_options_str  += '<option value="Suaeda californica">Suaeda californica</option>';
+            SciName_options_str  += '<option value="Systenotheca vortriedei">Systenotheca vortriedei</option>';
+            SciName_options_str  += '<option value="Taricha torosa">Taricha torosa</option>';
+            SciName_options_str  += '<option value="Taxidea taxus">Taxidea taxus</option>';
+            SciName_options_str  += '<option value="Trimerotropis occulens">Trimerotropis occulens</option>';
+            SciName_options_str  += '<option value="Triteleia ixioides ssp. cookii">Triteleia ixioides ssp. cookii</option>';
+            SciName_options_str  += '<option value="Valley Oak Woodland">Valley Oak Woodland</option>';
+            SciName_options_str  += '<option value="Vireo bellii pusillus">Vireo bellii pusillus</option>';
+            SciName_options_str  += '<option value="Vulpes macrotis mutica">Vulpes macrotis mutica</option>';
+            sel_SciName.innerHTML = SciName_options_str;
+            div_SciName.appendChild(sel_SciName);
+            var lab_SciName = document.createElement('div');
+            lab_SciName.innerHTML = 'SciName';
+            lab_SciName.className = 'filterlabel';
+            div_SciName.appendChild(lab_SciName);
+            var reset_SciName = document.createElement('div');
+            reset_SciName.innerHTML = 'clear filter';
+            reset_SciName.className = 'filterlabel';
+            reset_SciName.onclick = function() {
+                var options = document.getElementById("sel_SciName").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_SciName.appendChild(reset_SciName);
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_CommName = document.createElement('div');
+            div_CommName.id = "div_CommName";
+            div_CommName.className= "filterselect";
+            document.getElementById("menu").appendChild(div_CommName);
+            sel_CommName = document.createElement('select');
+            sel_CommName.multiple = true;
+            sel_CommName.size = 10;
+            sel_CommName.id = "sel_CommName";
+            var CommName_options_str = "<option value='' unselected></option>";
+            sel_CommName.onchange = function(){filterFunc()};
+            CommName_options_str  += '<option value="NULL">NULL</option>';
+            CommName_options_str  += '<option value="American badger">American badger</option>';
+            CommName_options_str  += '<option value="Atascadero June beetle">Atascadero June beetle</option>';
+            CommName_options_str  += '<option value="Bishop Manzanita">Bishop Manzanita</option>';
+            CommName_options_str  += '<option value="Brewer&apos;s Calandrinia">Brewer&apos;s Calandrinia</option>';
+            CommName_options_str  += '<option value="California Seablite">California Seablite</option>';
+            CommName_options_str  += '<option value="California Spineflower">California Spineflower</option>';
+            CommName_options_str  += '<option value="California Spotted Owl">California Spotted Owl</option>';
+            CommName_options_str  += '<option value="California horned lark">California horned lark</option>';
+            CommName_options_str  += '<option value="California red-legged frog">California red-legged frog</option>';
+            CommName_options_str  += '<option value="Coast Range newt">Coast Range newt</option>';
+            CommName_options_str  += '<option value="Cook&apos;s triteleia">Cook&apos;s triteleia</option>';
+            CommName_options_str  += '<option value="Coulter&apos;s Matilija Poppy">Coulter&apos;s Matilija Poppy</option>';
+            CommName_options_str  += '<option value="Crotch bumble bee">Crotch bumble bee</option>';
+            CommName_options_str  += '<option value="Davidson&apos;s Bush-Mallow">Davidson&apos;s Bush-Mallow</option>';
+            CommName_options_str  += '<option value="Davidson&apos;s bush-mallow">Davidson&apos;s bush-mallow</option>';
+            CommName_options_str  += '<option value="Douglas&apos; Fiddleneck">Douglas&apos; Fiddleneck</option>';
+            CommName_options_str  += '<option value="Douglas&apos; Spineflower">Douglas&apos; Spineflower</option>';
+            CommName_options_str  += '<option value="Dusky-Fruited Malacothrix">Dusky-Fruited Malacothrix</option>';
+            CommName_options_str  += '<option value="Dwarf Calycadenia">Dwarf Calycadenia</option>';
+            CommName_options_str  += '<option value="Eastwood&apos;s larkspur">Eastwood&apos;s larkspur</option>';
+            CommName_options_str  += '<option value="Elegant Wild Buckwheat">Elegant Wild Buckwheat</option>';
+            CommName_options_str  += '<option value="Hardham&apos;s Bedstraw">Hardham&apos;s Bedstraw</option>';
+            CommName_options_str  += '<option value="Hardham&apos;s bedstraw">Hardham&apos;s bedstraw</option>';
+            CommName_options_str  += '<option value="Hardham&apos;s evening-primrose">Hardham&apos;s evening-primrose</option>';
+            CommName_options_str  += '<option value="Hogwallow Starfish">Hogwallow Starfish</option>';
+            CommName_options_str  += '<option value="Hooked Popcornflower">Hooked Popcornflower</option>';
+            CommName_options_str  += '<option value="Hoover&apos;s Manzanita">Hoover&apos;s Manzanita</option>';
+            CommName_options_str  += '<option value="Hoover&apos;s bent grass">Hoover&apos;s bent grass</option>';
+            CommName_options_str  += '<option value="Indian Valley spineflower">Indian Valley spineflower</option>';
+            CommName_options_str  += '<option value="Jared&apos;s pepper-grass">Jared&apos;s pepper-grass</option>';
+            CommName_options_str  += '<option value="Jones&apos; Bush-Mallow">Jones&apos; Bush-Mallow</option>';
+            CommName_options_str  += '<option value="Kellogg&apos;s horkelia">Kellogg&apos;s horkelia</option>';
+            CommName_options_str  += '<option value="Koch&apos;s cord moss">Koch&apos;s cord moss</option>';
+            CommName_options_str  += '<option value="La Panza mariposa-lily">La Panza mariposa-lily</option>';
+            CommName_options_str  += '<option value="Large-Flowered Nemacladus">Large-Flowered Nemacladus</option>';
+            CommName_options_str  += '<option value="Lemmon&apos;s Jewelflower">Lemmon&apos;s Jewelflower</option>';
+            CommName_options_str  += '<option value="Lemmon&apos;s jewelflower">Lemmon&apos;s jewelflower</option>';
+            CommName_options_str  += '<option value="Lompoc grasshopper">Lompoc grasshopper</option>';
+            CommName_options_str  += '<option value="Mason&apos;s Neststraw">Mason&apos;s Neststraw</option>';
+            CommName_options_str  += '<option value="Mason&apos;s neststraw">Mason&apos;s neststraw</option>';
+            CommName_options_str  += '<option value="Mexican Mosquito Fern">Mexican Mosquito Fern</option>';
+            CommName_options_str  += '<option value="Michael&apos;s Rein Orchid">Michael&apos;s Rein Orchid</option>';
+            CommName_options_str  += '<option value="Monkey-Flower Savory">Monkey-Flower Savory</option>';
+            CommName_options_str  += '<option value="Monterey dusky-footed woodrat">Monterey dusky-footed woodrat</option>';
+            CommName_options_str  += '<option value="Monterey hitch">Monterey hitch</option>';
+            CommName_options_str  += '<option value="Most Beautiful Jewelflower">Most Beautiful Jewelflower</option>';
+            CommName_options_str  += '<option value="Northern California Black Walnut">Northern California Black Walnut</option>';
+            CommName_options_str  += '<option value="Northern California legless lizard">Northern California legless lizard</option>';
+            CommName_options_str  += '<option value="Ocean Bluff Milk-Vetch">Ocean Bluff Milk-Vetch</option>';
+            CommName_options_str  += '<option value="Ojai Fritillary">Ojai Fritillary</option>';
+            CommName_options_str  += '<option value="Ojai fritillary">Ojai fritillary</option>';
+            CommName_options_str  += '<option value="Oregon meconella">Oregon meconella</option>';
+            CommName_options_str  += '<option value="Pale-Yellow Layia">Pale-Yellow Layia</option>';
+            CommName_options_str  += '<option value="Palmer&apos;s Monardella">Palmer&apos;s Monardella</option>';
+            CommName_options_str  += '<option value="Palmer&apos;s Spineflower">Palmer&apos;s Spineflower</option>';
+            CommName_options_str  += '<option value="Parish&apos;s Checkerbloom">Parish&apos;s Checkerbloom</option>';
+            CommName_options_str  += '<option value="Prostrate Vernal Pool Navarretia">Prostrate Vernal Pool Navarretia</option>';
+            CommName_options_str  += '<option value="Robbins&apos; Nemacladus">Robbins&apos; Nemacladus</option>';
+            CommName_options_str  += '<option value="Robbins&apos; nemacladus">Robbins&apos; nemacladus</option>';
+            CommName_options_str  += '<option value="Salinas Milk-Vetch">Salinas Milk-Vetch</option>';
+            CommName_options_str  += '<option value="Salinas Valley Goldfields">Salinas Valley Goldfields</option>';
+            CommName_options_str  += '<option value="Salinas pocket mouse">Salinas pocket mouse</option>';
+            CommName_options_str  += '<option value="San Benito Pentachaeta">San Benito Pentachaeta</option>';
+            CommName_options_str  += '<option value="San Benito Poppy">San Benito Poppy</option>';
+            CommName_options_str  += '<option value="San Gabriel Ragwort">San Gabriel Ragwort</option>';
+            CommName_options_str  += '<option value="San Joaquin coachwhip">San Joaquin coachwhip</option>';
+            CommName_options_str  += '<option value="San Joaquin kit fox">San Joaquin kit fox</option>';
+            CommName_options_str  += '<option value="San Luis Obispo Owl&apos;s-Clover">San Luis Obispo Owl&apos;s-Clover</option>';
+            CommName_options_str  += '<option value="San Luis Obispo owl&apos;s-clover">San Luis Obispo owl&apos;s-clover</option>';
+            CommName_options_str  += '<option value="Santa Cruz microseris">Santa Cruz microseris</option>';
+            CommName_options_str  += '<option value="Santa Lucia Bush-Mallow">Santa Lucia Bush-Mallow</option>';
+            CommName_options_str  += '<option value="Santa Lucia Dwarf Rush">Santa Lucia Dwarf Rush</option>';
+            CommName_options_str  += '<option value="Santa Lucia Gooseberry">Santa Lucia Gooseberry</option>';
+            CommName_options_str  += '<option value="Santa Lucia Manzanita">Santa Lucia Manzanita</option>';
+            CommName_options_str  += '<option value="Santa Lucia Purple Amole">Santa Lucia Purple Amole</option>';
+            CommName_options_str  += '<option value="Santa Lucia bush-mallow">Santa Lucia bush-mallow</option>';
+            CommName_options_str  += '<option value="Santa Lucia dwarf rush">Santa Lucia dwarf rush</option>';
+            CommName_options_str  += '<option value="Santa Lucia manzanita">Santa Lucia manzanita</option>';
+            CommName_options_str  += '<option value="Santa Lucia monkeyflower">Santa Lucia monkeyflower</option>';
+            CommName_options_str  += '<option value="Santa Lucia purple amole">Santa Lucia purple amole</option>';
+            CommName_options_str  += '<option value="Shining Navarretia">Shining Navarretia</option>';
+            CommName_options_str  += '<option value="Small-Leaved Lomatium">Small-Leaved Lomatium</option>';
+            CommName_options_str  += '<option value="South Coast Range Morning-Glory">South Coast Range Morning-Glory</option>';
+            CommName_options_str  += '<option value="Southern California Black Walnut">Southern California Black Walnut</option>';
+            CommName_options_str  += '<option value="Spring Lessingia">Spring Lessingia</option>';
+            CommName_options_str  += '<option value="Straight-Awned Spineflower">Straight-Awned Spineflower</option>';
+            CommName_options_str  += '<option value="Temblor Buckwheat">Temblor Buckwheat</option>';
+            CommName_options_str  += '<option value="Townsend&apos;s big-eared bat">Townsend&apos;s big-eared bat</option>';
+            CommName_options_str  += '<option value="Trumpet-Throated Gilia">Trumpet-Throated Gilia</option>';
+            CommName_options_str  += '<option value="Umbrella Larkspur">Umbrella Larkspur</option>';
+            CommName_options_str  += '<option value="Valley Oak Woodland">Valley Oak Woodland</option>';
+            CommName_options_str  += '<option value="Vortriede&apos;s Spineflower">Vortriede&apos;s Spineflower</option>';
+            CommName_options_str  += '<option value="Yellow-Flowered Eriastrum">Yellow-Flowered Eriastrum</option>';
+            CommName_options_str  += '<option value="bald eagle">bald eagle</option>';
+            CommName_options_str  += '<option value="bristlecone fir">bristlecone fir</option>';
+            CommName_options_str  += '<option value="burrowing owl">burrowing owl</option>';
+            CommName_options_str  += '<option value="chaparral ragwort">chaparral ragwort</option>';
+            CommName_options_str  += '<option value="coast horned lizard">coast horned lizard</option>';
+            CommName_options_str  += '<option value="dwarf calycadenia">dwarf calycadenia</option>';
+            CommName_options_str  += '<option value="ferruginous hawk">ferruginous hawk</option>';
+            CommName_options_str  += '<option value="foothill yellow-legged frog">foothill yellow-legged frog</option>';
+            CommName_options_str  += '<option value="golden eagle">golden eagle</option>';
+            CommName_options_str  += '<option value="great blue heron">great blue heron</option>';
+            CommName_options_str  += '<option value="hoary bat">hoary bat</option>';
+            CommName_options_str  += '<option value="hooked popcornflower">hooked popcornflower</option>';
+            CommName_options_str  += '<option value="least Bell&apos;s vireo">least Bell&apos;s vireo</option>';
+            CommName_options_str  += '<option value="lesser slender salamander">lesser slender salamander</option>';
+            CommName_options_str  += '<option value="mesa horkelia">mesa horkelia</option>';
+            CommName_options_str  += '<option value="most beautiful jewelflower">most beautiful jewelflower</option>';
+            CommName_options_str  += '<option value="oval-leaved snapdragon">oval-leaved snapdragon</option>';
+            CommName_options_str  += '<option value="pale-yellow layia">pale-yellow layia</option>';
+            CommName_options_str  += '<option value="pallid bat">pallid bat</option>';
+            CommName_options_str  += '<option value="prairie falcon">prairie falcon</option>';
+            CommName_options_str  += '<option value="prostrate vernal pool navarretia">prostrate vernal pool navarretia</option>';
+            CommName_options_str  += '<option value="shining navarretia">shining navarretia</option>';
+            CommName_options_str  += '<option value="steelhead - south-central California coast DPS">steelhead - south-central California coast DPS</option>';
+            CommName_options_str  += '<option value="straight-awned spineflower">straight-awned spineflower</option>';
+            CommName_options_str  += '<option value="tricolored blackbird">tricolored blackbird</option>';
+            CommName_options_str  += '<option value="umbrella larkspur">umbrella larkspur</option>';
+            CommName_options_str  += '<option value="vernal pool fairy shrimp">vernal pool fairy shrimp</option>';
+            CommName_options_str  += '<option value="western pond turtle">western pond turtle</option>';
+            CommName_options_str  += '<option value="western spadefoot">western spadefoot</option>';
+            CommName_options_str  += '<option value="woodland woollythreads">woodland woollythreads</option>';
+            CommName_options_str  += '<option value="yellow warbler">yellow warbler</option>';
+            CommName_options_str  += '<option value="yellow-flowered eriastrum">yellow-flowered eriastrum</option>';
+            sel_CommName.innerHTML = CommName_options_str;
+            div_CommName.appendChild(sel_CommName);
+            var lab_CommName = document.createElement('div');
+            lab_CommName.innerHTML = 'CommName';
+            lab_CommName.className = 'filterlabel';
+            div_CommName.appendChild(lab_CommName);
+            var reset_CommName = document.createElement('div');
+            reset_CommName.innerHTML = 'clear filter';
+            reset_CommName.className = 'filterlabel';
+            reset_CommName.onclick = function() {
+                var options = document.getElementById("sel_CommName").options;
+                for (var i=0; i < options.length; i++) {
+                    options[i].selected = false;
+                }
+                filterFunc();
+            };
+            div_CommName.appendChild(reset_CommName);
+        resetLabels([layer_quads_1]);
+        map.on("zoomend", function(){
+            resetLabels([layer_quads_1]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer_quads_1]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer_quads_1]);
+        });
+        </script>
+    </body>
+</html>
